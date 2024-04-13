@@ -8,7 +8,13 @@ import { theme } from "./data/theme";
 import { Box, ThemeProvider, CssBaseline } from "@mui/material";
 import DrawerList from "./components/DrawerList";
 import Header from "./components/Header";
-import { BrowserRouter } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+
+import Home from "./pages/Home";
+import Orders from "./pages/Orders";
+import Employees from "./pages/Employees";
+import Defects from "./pages/Defects";
+import Tasks from "./pages/Tasks";
 
 function App() {
   const [open, setOpen] = React.useState(false);
@@ -23,7 +29,15 @@ function App() {
           <CssBaseline />
           <Header title="SMT Administration" toggleDrawer={toggleDrawer} />
           <DrawerList open={open} toggleDrawer={toggleDrawer} />
-          <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}></Box>
+          <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/orders" element={<Orders />} />
+              <Route path="/employees" element={<Employees />} />
+              <Route path="/defects" element={<Defects />} />
+              <Route path="/tasks" element={<Tasks />} />
+            </Routes>
+          </Box>
         </Box>
       </BrowserRouter>
     </ThemeProvider>
