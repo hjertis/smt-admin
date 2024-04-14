@@ -5,7 +5,7 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { theme } from "./data/theme";
-import { Box, ThemeProvider, CssBaseline } from "@mui/material";
+import { ThemeProvider, CssBaseline, Container, Box } from "@mui/material";
 import DrawerList from "./components/DrawerList";
 import Header from "./components/Header";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
@@ -25,20 +25,29 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <BrowserRouter>
-        <Box>
-          <CssBaseline />
-          <Header title="SMT Administration" toggleDrawer={toggleDrawer} />
-          <DrawerList open={open} toggleDrawer={toggleDrawer} />
-          <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/employees" element={<Employees />} />
-              <Route path="/defects" element={<Defects />} />
-              <Route path="/tasks" element={<Tasks />} />
-            </Routes>
+        <CssBaseline />
+        <Header title="SMT Administration" toggleDrawer={toggleDrawer} />
+        <DrawerList open={open} toggleDrawer={toggleDrawer} />
+        <Container
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            pt: { xs: 5, sm: 8 },
+            pb: { xs: 8, sm: 12 },
+          }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/orders" element={<Orders />} />
+            <Route path="/employees" element={<Employees />} />
+            <Route path="/defects" element={<Defects />} />
+            <Route path="/tasks" element={<Tasks />} />
+          </Routes>
+          <Box sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}>
+            Footer
           </Box>
-        </Box>
+        </Container>
       </BrowserRouter>
     </ThemeProvider>
   );
