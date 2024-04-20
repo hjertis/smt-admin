@@ -1,23 +1,65 @@
 import React from "react";
 import {
+  AccountBox,
   AddCircle,
-  Help,
   Home,
-  Menu,
   ShowChart,
   ViewList,
 } from "@mui/icons-material";
 import {
   AppBar,
-  Button,
   Grid,
   IconButton,
+  Menu,
+  MenuItem,
   Toolbar,
-  Tooltip,
   Typography,
+  Link,
 } from "@mui/material";
+import { useAuth } from "../context/AuthContext";
 
 const Header = (props) => {
+  const { logout } = useAuth();
+  const [anchorEl, setAnchorEl] = React.useState(false);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleLogout = () => {
+    handleClose();
+    logout();
+  };
+
+  const renderMenu = (
+    <Menu
+      id="user-menu"
+      open={open}
+      anchorEl={anchorEl}
+      onClose={handleClose}
+      keepMounted
+      MenuListProps={{
+        "aria-labelledby": "user-menu",
+      }}>
+      <MenuItem onClick={handleClose} component={Link} href="/account">
+        Profile
+      </MenuItem>
+      <MenuItem onClick={handleClose} component={Link} href="/signin">
+        Sign In
+      </MenuItem>
+      <MenuItem onClick={handleClose} component={Link} href="/signup">
+        Sign Up
+      </MenuItem>
+      <MenuItem onClick={handleClose} component={Link} href="/help">
+        Help
+      </MenuItem>
+      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+    </Menu>
+  );
+
   return (
     <header>
       <AppBar component="div" color="primary" position="static" elevation={0}>
@@ -33,10 +75,14 @@ const Header = (props) => {
                 color="inherit"
                 variant="h5"
                 component="h1"
-                textAlign="center"
-              >
+                textAlign="center">
                 {props.title}
               </Typography>
+            </Grid>
+            <Grid item>
+              <IconButton color="inherit" size="large" onClick={handleClick}>
+                <AccountBox />
+              </IconButton>
             </Grid>
           </Grid>
         </Toolbar>
@@ -45,8 +91,7 @@ const Header = (props) => {
         component="div"
         position="static"
         elevation={0}
-        sx={{ zIndex: 0, boxShadow: "0px 5px 5px grey" }}
-      >
+        sx={{ zIndex: 0, boxShadow: "0px 5px 5px grey" }}>
         <Toolbar>
           <Grid container spacing={1} textAlign="center">
             <Grid item xs>
@@ -69,6 +114,7 @@ const Header = (props) => {
           </Grid>
         </Toolbar>
       </AppBar>
+      {renderMenu}
     </header>
   );
 };

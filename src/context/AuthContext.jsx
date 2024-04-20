@@ -7,9 +7,10 @@ import {
   sendPasswordResetEmail,
   updateEmail as updateEmailFirebase,
   updatePassword as updatePasswordFirebase,
+  updateProfile as updateProfileFirebase,
 } from "firebase/auth";
 
-const AuthContext = React.createContext();
+export const AuthContext = React.createContext();
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -35,6 +36,10 @@ export function AuthProvider({ children }) {
     return sendPasswordResetEmail(auth, email);
   }
 
+  function updateProfile(profile) {
+    return updateProfileFirebase(currentUser, profile);
+  }
+
   function updateEmail(email) {
     return updateEmailFirebase(currentUser, email);
   }
@@ -57,6 +62,7 @@ export function AuthProvider({ children }) {
     signup,
     logout,
     resetPassword,
+    updateProfile,
     updateEmail,
     updatePassword,
   };

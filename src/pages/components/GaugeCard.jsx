@@ -1,4 +1,5 @@
 import React from "react";
+import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
 import {
   Button,
   Card,
@@ -6,9 +7,8 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import { SparkLineChart } from "@mui/x-charts";
 
-export default function Cards(props) {
+export default function GaugeCard(props) {
   return (
     <Card
       sx={{
@@ -16,12 +16,15 @@ export default function Cards(props) {
         backgroundColor: "#f5f5f5",
         display: "flex",
         flexDirection: "column",
+        justifyContent: "center",
       }}>
       <CardContent>
-        <SparkLineChart
-          data={props.sparkline}
-          height={140}
-          plotType={props.plotType}
+        <Gauge
+          width={200}
+          height={200}
+          value={60}
+          startAngle={-110}
+          endAngle={110}
         />
         <Typography gutterBottom variant="h5" component="div">
           {props.title}

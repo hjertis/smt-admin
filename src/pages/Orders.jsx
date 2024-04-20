@@ -1,16 +1,30 @@
-import { Box, Grid, Typography } from "@mui/material";
+import { Box, Fab, Grid, Typography } from "@mui/material";
 import React from "react";
 import DataGrid from "./orders/DataGrid";
+import { Add } from "@mui/icons-material";
+import AddOrderDialog from "./orders/AddOrderDialog";
 
 export default function Orders() {
+  const [openAddOrder, setOpenAddOrder] = React.useState(false);
+
+  const toggleAddOrder = () => {
+    setOpenAddOrder(!openAddOrder);
+  };
   return (
     <Box>
       <Grid container spacing={2}>
-        <Grid item>Hello Cards</Grid>
         <Grid item>
           <DataGrid />
         </Grid>
       </Grid>
+      <Fab
+        color="primary"
+        aria-label="add-order"
+        sx={{ position: "absolute", bottom: 16, right: 16 }}
+        onClick={toggleAddOrder}>
+        <Add />
+      </Fab>
+      <AddOrderDialog addOrder={openAddOrder} toggleAddOrder={toggleAddOrder} />
     </Box>
   );
 }

@@ -1,4 +1,5 @@
 import React from "react";
+import { PieChart } from "@mui/x-charts";
 import {
   Button,
   Card,
@@ -6,9 +7,8 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
-import { SparkLineChart } from "@mui/x-charts";
 
-export default function Cards(props) {
+export default function PieCard(props) {
   return (
     <Card
       sx={{
@@ -16,12 +16,19 @@ export default function Cards(props) {
         backgroundColor: "#f5f5f5",
         display: "flex",
         flexDirection: "column",
+        justifyContent: "center",
       }}>
       <CardContent>
-        <SparkLineChart
-          data={props.sparkline}
-          height={140}
-          plotType={props.plotType}
+        <PieChart
+          series={props.pie}
+          height={200}
+          slotProps={{
+            legend: {
+              sx: {
+                display: "none",
+              },
+            },
+          }}
         />
         <Typography gutterBottom variant="h5" component="div">
           {props.title}
