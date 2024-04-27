@@ -19,7 +19,6 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export default function SignUp(props) {
-  const displayNameRef = React.useRef();
   const emailRef = React.useRef();
   const passwordRef = React.useRef();
   const passwordConfirmRef = React.useRef();
@@ -73,7 +72,7 @@ export default function SignUp(props) {
             <LockOutlined />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            Sign up
           </Typography>
           <Box
             component="form"
@@ -82,16 +81,6 @@ export default function SignUp(props) {
             sx={{ mt: 1, width: "100%" }}>
             <Stack spacing={2}>
               <TextField
-                autoComplete="displayName"
-                name="displayName"
-                required
-                fullWidth
-                id="displayName"
-                label="Display Name"
-                autoFocus
-                inputRef={displayNameRef}
-              />
-              <TextField
                 required
                 fullWidth
                 id="email"
@@ -99,6 +88,7 @@ export default function SignUp(props) {
                 name="email"
                 autoComplete="email"
                 inputRef={emailRef}
+                disable={loading}
               />
               <TextField
                 required
@@ -109,6 +99,7 @@ export default function SignUp(props) {
                 id="password"
                 autoComplete="current-password"
                 inputRef={passwordRef}
+                disable={loading}
               />
               <TextField
                 required
@@ -118,6 +109,7 @@ export default function SignUp(props) {
                 type="password"
                 autoComplete="current-password"
                 inputRef={passwordConfirmRef}
+                disable={loading}
               />
               <Button type="submit" variant="contained" color="primary">
                 SIGN UP

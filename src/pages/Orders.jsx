@@ -1,6 +1,6 @@
 import { Box, Fab, Grid, Typography } from "@mui/material";
 import React from "react";
-import DataGrid from "./orders/DataGrid";
+import DataTable from "./orders/DataTable";
 import { Add } from "@mui/icons-material";
 import AddOrderDialog from "./orders/AddOrderDialog";
 
@@ -14,7 +14,7 @@ export default function Orders() {
     <Box>
       <Grid container spacing={2}>
         <Grid item>
-          <DataGrid />
+          <DataTable />
         </Grid>
       </Grid>
       <Fab

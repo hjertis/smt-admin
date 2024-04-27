@@ -1,10 +1,16 @@
 import React from "react";
 import {
   AccountBox,
+  AccountCircle,
   AddCircle,
+  Help,
   Home,
+  Login,
+  Logout,
+  PersonAdd,
   ShowChart,
   ViewList,
+  Menu as MenuIcon,
 } from "@mui/icons-material";
 import {
   AppBar,
@@ -20,7 +26,7 @@ import { useAuth } from "../context/AuthContext";
 
 const Header = (props) => {
   const { logout } = useAuth();
-  const [anchorEl, setAnchorEl] = React.useState(false);
+  const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -35,28 +41,22 @@ const Header = (props) => {
   };
 
   const renderMenu = (
-    <Menu
-      id="user-menu"
-      open={open}
-      anchorEl={anchorEl}
-      onClose={handleClose}
-      keepMounted
-      MenuListProps={{
-        "aria-labelledby": "user-menu",
-      }}>
+    <Menu id="basic-menu" anchorEl={anchorEl} open={open} onClose={handleClose}>
       <MenuItem onClick={handleClose} component={Link} href="/account">
-        Profile
+        <AccountCircle /> Profile
       </MenuItem>
       <MenuItem onClick={handleClose} component={Link} href="/signin">
-        Sign In
+        <Login /> Sign In
       </MenuItem>
       <MenuItem onClick={handleClose} component={Link} href="/signup">
-        Sign Up
+        <PersonAdd /> Sign Up
       </MenuItem>
       <MenuItem onClick={handleClose} component={Link} href="/help">
-        Help
+        <Help /> Help
       </MenuItem>
-      <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      <MenuItem onClick={handleLogout}>
+        <Logout /> Logout
+      </MenuItem>
     </Menu>
   );
 
@@ -67,7 +67,7 @@ const Header = (props) => {
           <Grid container spacing={1} alignItems="center">
             <Grid item sx={{ width: 55 }}>
               <IconButton color="inherit" onClick={props.toggleDrawer(true)}>
-                <Menu />
+                <MenuIcon />
               </IconButton>
             </Grid>
             <Grid item lg>

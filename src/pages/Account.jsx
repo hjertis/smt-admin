@@ -1,5 +1,5 @@
 import React from "react";
-import { LockPerson } from "@mui/icons-material";
+import { LockPerson, Refresh } from "@mui/icons-material";
 import {
   Avatar,
   Box,
@@ -10,6 +10,7 @@ import {
   TextField,
   Typography,
   Link,
+  IconButton,
 } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -85,13 +86,11 @@ export default function Account(props) {
             <LockPerson />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Account Details {currentUser.displayName}
+            Account Details
           </Typography>
           <Box component="form" noValidate sx={{ mt: 1, width: "100%" }}>
-            <Stack spacing={2}>
+            <Stack spacing={2} direction="row" useFlexGap flexWrap="wrap">
               <TextField
-                margin="normal"
-                fullWidth
                 id="displayName"
                 label="Display Name"
                 name="displayName"
@@ -99,34 +98,35 @@ export default function Account(props) {
                 autoFocus
                 inputRef={displayNameRef}
                 defaultValue={currentUser.displayName}
+                sx={{ width: "84%" }}
               />
-              <Button onClick={handleUpdateName} variant="contained">
-                Update
-              </Button>
+              <IconButton onClick={handleUpdateName} size="large">
+                <Refresh />
+              </IconButton>
               <TextField
-                fullWidth
                 id="email"
                 label="Email Address"
                 name="email"
                 autoComplete="email"
                 inputRef={emailRef}
                 defaultValue={currentUser.email}
+                sx={{ width: "84%" }}
               />
-              <Button onClick={handleUpdateEmail} variant="contained">
-                Update
-              </Button>
+              <IconButton onClick={handleUpdateEmail} size="large">
+                <Refresh />
+              </IconButton>
               <TextField
-                fullWidth
                 name="password"
                 label="Password"
                 type="password"
                 id="password"
                 inputRef={passwordRef}
                 autoComplete="current-password"
+                sx={{ width: "84%" }}
               />
-              <Button onClick={handleUpdatePassword} variant="contained">
-                Update
-              </Button>
+              <IconButton onClick={handleUpdatePassword} size="large">
+                <Refresh />
+              </IconButton>
             </Stack>
           </Box>
         </Box>

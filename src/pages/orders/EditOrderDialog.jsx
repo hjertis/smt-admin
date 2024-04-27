@@ -1,10 +1,7 @@
-import React from "react";
 import {
   Autocomplete,
-  Button,
-  ButtonGroup,
+  Box,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogTitle,
   InputAdornment,
@@ -13,82 +10,36 @@ import {
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
+import React from "react";
 import { allTasks } from "../../data/data";
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-import { db } from "../../firebase-config";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-export default function AddOrderDialog(props) {
-  const addOrderFormRef = React.useRef();
-  const orderNumberRef = React.useRef();
-  const orderDescriptionRef = React.useRef();
-  const orderQuantityRef = React.useRef();
-  const orderNotesRef = React.useRef();
+export default function EditOrderDialog(props) {
   const [loading, setLoading] = React.useState(false);
   const [orderStartDate, setOrderStartDate] = React.useState(dayjs(new Date()));
   const [orderEndDate, setOrderEndDate] = React.useState(dayjs(new Date()));
   const [subtasks, setSubtasks] = React.useState([]);
+  const editOrderFormRef = React.useRef();
+  const orderNumberRef = React.useRef();
+  const orderDescriptionRef = React.useRef();
+  const orderQuantityRef = React.useRef();
+  const orderNotesRef = React.useRef();
 
-  const handleOrderSubmit = async (e) => {
+  const handleEditOrderSubmit = (e) => {
     e.preventDefault();
-    setLoading(true);
-    try {
-      const docRef = await setDoc(
-        doc(db, "orders", orderNumberRef.current.value),
-        {
-          orderNumber: orderNumberRef.current.value,
-          orderDescription: orderDescriptionRef.current.value,
-          orderQuantity: orderQuantityRef.current.value,
-          orderNotes: orderNotesRef.current.value,
-          orderStartDate: orderStartDate.$d,
-          orderEndDate: orderEndDate.$d,
-          status: "New",
-        }
-      ).then(() => {
-        subtasks.forEach((task, index) => {
-          setDoc(
-            doc(db, "orders", orderNumberRef.current.value, "subtasks", task),
-            {
-              taskName: task,
-              taskNumber: index + 1,
-              status: "New",
-              taskStartDate: "01-01-2024",
-              taskEndDate: "01-01-2024",
-              taskTimeActual: "00:00:00",
-              taskTimeEstimated: "00:00:00",
-              taskNotes: "",
-            }
-          );
-        });
-      });
-      toast.success("Order added successfully");
-      handleOrderFormReset();
-    } catch (err) {
-      toast.error("Error creating order" + err.message);
-      console.log(err.message);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleOrderFormReset = () => {
-    addOrderFormRef.current.reset();
-    setLoading(false);
   };
 
   return (
     <Dialog
+      open={props.open}
+      onClose={props.toggleClose}
       maxWidth="md"
-      fullWidth
-      open={props.addOrder}
-      onClose={props.toggleAddOrder}>
-      <DialogTitle>Add Order</DialogTitle>
+      fullWidth>
+      <DialogTitle>Edit Order</DialogTitle>
       <DialogContent sx={{ display: "flex", flexDirection: "column" }}>
         <form
           noValidate
-          onSubmit={handleOrderSubmit}
-          ref={addOrderFormRef}
+          onSubmit={handleEditOrderSubmit}
+          ref={editOrderFormRef}
           style={{ width: "100%" }}>
           <Stack spacing={2} useFlexGap flexWrap="wrap" direction="row">
             <TextField
@@ -100,26 +51,29 @@ export default function AddOrderDialog(props) {
               autoComplete="orderNumber"
               disabled={loading}
               inputRef={orderNumberRef}
+              defaultValue={props.order.orderNumber}
               sx={{ mt: 1 }}
             />
             <TextField
               required
               fullWidth
               id="orderDescription"
-              label="Description"
+              label="Order Description"
               name="orderDescription"
               autoComplete="orderDescription"
               disabled={loading}
               inputRef={orderDescriptionRef}
+              defaultValue={props.order.orderDescription}
             />
             <TextField
               required
               id="orderQuantity"
-              label="Quantity"
+              label="Order Quantity"
               name="orderQuantity"
               autoComplete="orderQuantity"
               disabled={loading}
               inputRef={orderQuantityRef}
+              defaultValue={props.order.orderQuantity}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">pcs</InputAdornment>
@@ -127,6 +81,7 @@ export default function AddOrderDialog(props) {
               }}
             />
             <DatePicker
+              required
               label="Order Date"
               disabled={loading}
               value={orderStartDate}
@@ -134,6 +89,7 @@ export default function AddOrderDialog(props) {
               sx={{ width: "auto" }}
             />
             <DatePicker
+              required
               label="Delivery Date"
               disabled={loading}
               value={orderEndDate}
@@ -143,8 +99,10 @@ export default function AddOrderDialog(props) {
             <Autocomplete
               multiple
               fullWidth
+              required
               id="subtasks"
               options={allTasks}
+              disabled={loading}
               onChange={(event, newValue) => {
                 setSubtasks(newValue);
               }}
@@ -164,21 +122,9 @@ export default function AddOrderDialog(props) {
               name="orderNotes"
               disabled={loading}
               inputRef={orderNotesRef}
+              defaultValue={props.order.orderNotes}
             />
           </Stack>
-          <DialogActions>
-            <ButtonGroup variant="contained">
-              <Button color="success" onClick={handleOrderSubmit}>
-                Add Order
-              </Button>
-              <Button color="warning" onClick={(e) => handleOrderFormReset()}>
-                Reset
-              </Button>
-              <Button color="error" onClick={(e) => props.toggleAddOrder()}>
-                Cancel
-              </Button>
-            </ButtonGroup>
-          </DialogActions>
         </form>
       </DialogContent>
     </Dialog>
