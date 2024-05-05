@@ -14,7 +14,7 @@ import {
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { allTasks } from "../../data/data";
-import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+import { setDoc, doc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -44,24 +44,20 @@ export default function AddOrderDialog(props) {
           orderStartDate: orderStartDate.$d,
           orderEndDate: orderEndDate.$d,
           status: "New",
-        }
-      ).then(() => {
-        subtasks.forEach((task, index) => {
-          setDoc(
-            doc(db, "orders", orderNumberRef.current.value, "subtasks", task),
-            {
+          subtasks: subtasks.map((task) => {
+            return {
               taskName: task,
-              taskNumber: index + 1,
-              status: "New",
+              taskNumber: subtasks.indexOf(task) + 1,
+              status: "Not Started",
               taskStartDate: "01-01-2024",
               taskEndDate: "01-01-2024",
               taskTimeActual: "00:00:00",
               taskTimeEstimated: "00:00:00",
               taskNotes: "",
-            }
-          );
-        });
-      });
+            };
+          }),
+        }
+      );
       toast.success("Order added successfully");
       handleOrderFormReset();
     } catch (err) {
@@ -83,6 +79,7 @@ export default function AddOrderDialog(props) {
       fullWidth
       open={props.addOrder}
       onClose={props.toggleAddOrder}>
+      <ToastContainer />
       <DialogTitle>Add Order</DialogTitle>
       <DialogContent sx={{ display: "flex", flexDirection: "column" }}>
         <form
@@ -143,6 +140,8 @@ export default function AddOrderDialog(props) {
             <Autocomplete
               multiple
               fullWidth
+              disableCloseOnSelect
+              freeSolo
               id="subtasks"
               options={allTasks}
               onChange={(event, newValue) => {

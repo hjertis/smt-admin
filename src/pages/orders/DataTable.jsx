@@ -1,5 +1,4 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
 import { columns } from "./columns.jsx";
 import { DataGrid } from "@mui/x-data-grid";
 import { collection, getDocs } from "firebase/firestore";
@@ -7,6 +6,7 @@ import { db } from "../../firebase-config";
 
 export default function DataTable() {
   const [documents, setDocuments] = React.useState([]);
+  const [subCollections, setSubCollections] = React.useState([]);
   const database = collection(db, "orders");
   const data = [];
 
@@ -39,6 +39,7 @@ export default function DataTable() {
       status: a.status,
       oldOrderEndDate: a.orderEndDate,
       oldOrderStartDate: a.orderStartDate,
+      subtasks: a.subtasks,
     });
   });
 

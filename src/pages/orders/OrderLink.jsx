@@ -4,11 +4,10 @@ import OrderActions from "./OrderActions";
 
 export default function OrderLink(props) {
   const [open, setOpen] = React.useState(false);
-  const [currentOrder, setCurrentOrder] = React.useState([]);
+  const [currentOrder, setCurrentOrder] = React.useState(props.order);
 
   const handleOpen = () => {
     setOpen(true);
-    setCurrentOrder(props.order);
   };
 
   const toggleClose = () => {
@@ -17,7 +16,7 @@ export default function OrderLink(props) {
   return (
     <div>
       <Link onClick={handleOpen}>{props.order.orderNumber}</Link>
-      <OrderActions open={open} toggle={toggleClose} order={currentOrder} />
+      <OrderActions open={open} order={currentOrder} toggle={toggleClose} />
     </div>
   );
 }

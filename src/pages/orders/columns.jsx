@@ -28,6 +28,12 @@ export const columns = [
     minWidth: 50,
     flex: 0.3,
   },
+  /*   {
+    field: "status",
+    headerName: "Status",
+    minWidth: 50,
+    flex: 0.3,
+  }, */
   {
     field: "orderStartDate",
     headerName: "Order Start Date",
