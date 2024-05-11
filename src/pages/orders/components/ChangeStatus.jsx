@@ -45,6 +45,7 @@ export default function ChangeStatus(props) {
     } finally {
       setLoading(false);
       toggleStatus();
+      window.location.reload();
     }
   };
 

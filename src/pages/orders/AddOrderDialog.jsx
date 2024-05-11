@@ -44,18 +44,6 @@ export default function AddOrderDialog(props) {
           orderStartDate: orderStartDate.$d,
           orderEndDate: orderEndDate.$d,
           status: "New",
-          subtasks: subtasks.map((task) => {
-            return {
-              taskName: task,
-              taskNumber: subtasks.indexOf(task) + 1,
-              status: "Not Started",
-              taskStartDate: "01-01-2024",
-              taskEndDate: "01-01-2024",
-              taskTimeActual: "00:00:00",
-              taskTimeEstimated: "00:00:00",
-              taskNotes: "",
-            };
-          }),
         }
       );
       toast.success("Order added successfully");
@@ -71,6 +59,12 @@ export default function AddOrderDialog(props) {
   const handleOrderFormReset = () => {
     addOrderFormRef.current.reset();
     setLoading(false);
+  };
+
+  const orderCancel = () => {
+    handleOrderFormReset();
+    props.toggleAddOrder();
+    window.location.reload();
   };
 
   return (
@@ -173,7 +167,7 @@ export default function AddOrderDialog(props) {
               <Button color="warning" onClick={(e) => handleOrderFormReset()}>
                 Reset
               </Button>
-              <Button color="error" onClick={(e) => props.toggleAddOrder()}>
+              <Button color="error" onClick={orderCancel}>
                 Cancel
               </Button>
             </ButtonGroup>

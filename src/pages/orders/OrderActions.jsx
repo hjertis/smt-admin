@@ -7,10 +7,52 @@ import {
   DialogTitle,
   Typography,
 } from "@mui/material";
+import { doc, setDoc, updateDoc } from "firebase/firestore";
 import React from "react";
+import { db } from "../../firebase-config";
 
 export default function OrderActions(props) {
   const [currentOrder, setCurrentOrder] = React.useState(props.order);
+
+  const addTime = async () => {
+    try {
+      const docRef = await setDoc(
+        doc(db, "orders", currentOrder.orderNumber),
+        {
+          [currentOrder.status]: {
+            status: "Started",
+            startTime: Date.now(),
+          },
+        },
+        { merge: true }
+      );
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      props.toggle();
+      window.location.reload();
+    }
+  };
+
+  const stopTime = async () => {
+    try {
+      const docRef = await setDoc(
+        doc(db, "orders", currentOrder.orderNumber),
+        {
+          [currentOrder.status]: {
+            status: "Stopped",
+            stopTime: Date.now(),
+          },
+        },
+        { merge: true }
+      );
+    } catch (err) {
+      console.log(err.message);
+    } finally {
+      props.toggle();
+      window.location.reload();
+    }
+  };
 
   return (
     <Dialog open={props.open} onClose={props.toggle}>
@@ -23,10 +65,14 @@ export default function OrderActions(props) {
         {currentOrder.status === "New" && (
           <Typography>Please update status to something else</Typography>
         )}
-        {currentOrder.status === "Setup" && (
+        {currentOrder.status !== "New" && (
           <ButtonGroup variant="contained">
-            <Button>Start time for {currentOrder.status}</Button>
-            <Button>Stop time for {currentOrder.status}</Button>
+            <Button onClick={addTime}>
+              Start time for {currentOrder.status}
+            </Button>
+            <Button onClick={stopTime}>
+              Stop time for {currentOrder.status}
+            </Button>
           </ButtonGroup>
         )}
       </DialogContent>

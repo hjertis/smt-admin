@@ -28,12 +28,6 @@ export const columns = [
     minWidth: 50,
     flex: 0.3,
   },
-  /*   {
-    field: "status",
-    headerName: "Status",
-    minWidth: 50,
-    flex: 0.3,
-  }, */
   {
     field: "orderStartDate",
     headerName: "Order Start Date",
@@ -69,35 +63,22 @@ export const columns = [
     headerName: "Old Order End Date",
   },
   {
-    field: "status",
-    headerName: "Status",
-    minWidth: 150,
-    flex: 0.5,
+    field: "changeStatus",
+    headerName: "Change Status",
+    minWidth: 50,
+    flex: 0.3,
     renderCell: (params) => {
       return (
         <div>
           <ChangeStatus order={params.row} />
-          {params.row.status}
         </div>
       );
     },
   },
   {
-    field: "actions",
-    headerName: "Actions",
-    minWidth: 150,
-    flex: 0.75,
-    renderCell: (params) => {
-      return (
-        <div>
-          <IconButton>
-            <Timer />
-          </IconButton>
-          <IconButton>
-            <TimerOff />
-          </IconButton>
-        </div>
-      );
-    },
+    field: "status",
+    headerName: "Status",
+    minWidth: 100,
+    flex: 0.4,
   },
 ];
