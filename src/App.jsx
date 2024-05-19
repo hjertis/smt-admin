@@ -38,6 +38,7 @@ function App() {
             <Header title="SMT Administration" toggleDrawer={toggleDrawer} />
             <DrawerList open={open} toggleDrawer={toggleDrawer} />
             <Container
+              maxWidth="xl"
               sx={{
                 display: "flex",
                 flexDirection: "column",

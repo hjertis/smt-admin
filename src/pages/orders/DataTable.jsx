@@ -72,6 +72,7 @@ export default function DataTable() {
           },
         },
       }}
+      sx={{ width: "75vw", p: 2 }}
     />
   );
 }
