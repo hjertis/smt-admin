@@ -11,7 +11,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { doc, setDoc, updateDoc } from "firebase/firestore";
+import { Timestamp, doc, setDoc, updateDoc } from "firebase/firestore";
 import React from "react";
 import { db } from "../../firebase-config";
 
@@ -28,8 +28,9 @@ export default function OrderActions(props) {
         {
           [currentOrder.status]: {
             status: "Started",
-            startTime: Date.now(),
+            startTime: Timestamp.now(),
             worker: employee,
+            notes: notesRef.current.value,
           },
         },
         { merge: true }
@@ -49,7 +50,7 @@ export default function OrderActions(props) {
         {
           [currentOrder.status]: {
             status: "Stopped",
-            stopTime: Date.now(),
+            stopTime: Timestamp.now(),
           },
         },
         { merge: true }
@@ -82,7 +83,7 @@ export default function OrderActions(props) {
             <Autocomplete
               fullWidth
               id="employees"
-              options={options} //TODO: change employees to an array of employees
+              options={options}
               onChange={(event, newValue) => {
                 setEmployee(newValue);
               }}

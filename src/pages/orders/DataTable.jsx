@@ -10,23 +10,6 @@ export default function DataTable() {
   const database = collection(db, "orders");
   const data = [];
 
-  const padTo2Digits = (num) => {
-    return num.toString().padStart(2, "0");
-  };
-
-  const convertMsToHM = (ms) => {
-    let seconds = Math.floor(ms / 1000);
-    let minutes = Math.floor(seconds / 60);
-    let hours = Math.floor(minutes / 60);
-
-    seconds = seconds % 60;
-    minutes = seconds >= 30 ? minutes + 1 : minutes;
-    minutes = minutes % 60;
-    //hours = hours % 24; //only for when it's below 24 hours, 26:30 will show as 02:30!
-
-    return `${padTo2Digits(hours)}:${padTo2Digits(minutes)}`;
-  };
-
   documents.forEach((a) => {
     data.push({
       id: a.id,
@@ -37,9 +20,11 @@ export default function DataTable() {
       orderEndDate: a.orderEndDate.toDate().toLocaleString().split(",")[0],
       orderNotes: a.orderNotes,
       status: a.status,
-      oldOrderEndDate: a.orderEndDate,
-      oldOrderStartDate: a.orderStartDate,
-      subtasks: a.subtasks,
+      Setup: a.Setup,
+      Production: a.Production,
+      Repair: a.Repair,
+      Washing: a.Washing,
+      Cutting: a.Cutting,
     });
   });
 

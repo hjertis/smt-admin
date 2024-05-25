@@ -5,6 +5,7 @@ import EditOrderButton from "./EditOrderButton";
 import { Link } from "react-router-dom";
 import OrderLink from "./OrderLink";
 import ChangeStatus from "./components/ChangeStatus";
+import OrderInfo from "./OrderInfo";
 
 export const columns = [
   {
@@ -80,5 +81,15 @@ export const columns = [
     headerName: "Status",
     minWidth: 100,
     flex: 0.4,
+  },
+  {
+    field: "orderInfo",
+    headerName: "Order Info",
+    minWidth: 50,
+    flex: 0.3,
+    align: "center",
+    renderCell: (params) => {
+      return <OrderInfo order={params.row} />;
+    },
   },
 ];
