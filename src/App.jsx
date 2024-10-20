@@ -21,6 +21,8 @@ import Tasks from "./pages/Tasks";
 import Account from "./pages/Account";
 import SignUp from "./pages/SignUp";
 import SignIn from "./pages/SignIn";
+import NewOrders from "./pages/NewOrders";
+import Products from "./pages/Products";
 import PrivateRoute from "./context/PrivateRoute";
 
 function App() {
@@ -53,6 +55,8 @@ function App() {
                 <Route path="/employees" element={<Employees />} />
                 <Route path="/defects" element={<Defects />} />
                 <Route path="/tasks" element={<Tasks />} />
+                <Route path="/newOrders" element={<NewOrders />} />
+                <Route path="/products" element={<Products />} />
                 <Route
                   path="/account"
                   element={

@@ -3,13 +3,21 @@ import {
   Box,
   Divider,
   Drawer,
+  Link,
   List,
   ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { Inbox, Mail } from "@mui/icons-material";
+import {
+  Inbox,
+  Input,
+  Login,
+  Mail,
+  MoneyOffCsredSharp,
+  ProductionQuantityLimits,
+} from "@mui/icons-material";
 
 const DrawerList = (props) => {
   return (
@@ -19,22 +27,26 @@ const DrawerList = (props) => {
         role="persistent"
         onClick={props.toggleDrawer(false)}>
         <List>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <Inbox />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <Inbox />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-            </ListItemButton>
-          </ListItem>
+          <Link href="/products">
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <ProductionQuantityLimits />
+                </ListItemIcon>
+                <ListItemText primary="Products" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+          <Link href="/newOrders">
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <MoneyOffCsredSharp />
+                </ListItemIcon>
+                <ListItemText primary="Orders" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
           <ListItem disablePadding>
             <ListItemButton>
               <ListItemIcon>
@@ -54,22 +66,26 @@ const DrawerList = (props) => {
               <ListItemText primary="Inbox" />
             </ListItemButton>
           </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <Inbox />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <Inbox />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-            </ListItemButton>
-          </ListItem>
+          <Link href="/signup">
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Input />
+                </ListItemIcon>
+                <ListItemText primary="Sign up" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
+          <Link href="/signin">
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Login />
+                </ListItemIcon>
+                <ListItemText primary="Sign in" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         </List>
       </Box>
     </Drawer>
