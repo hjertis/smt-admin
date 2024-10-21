@@ -11,8 +11,37 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCSVReader } from "react-papaparse";
+import { setDoc, doc, addDoc, collection } from "firebase/firestore";
+import { db } from "../../firebase-config";
 
 const AddNewOrderDialog = (props) => {
+  const [loading, setLoading] = React.useState(false);
+  const [results, setResults] = React.useState([]);
+
+  const handleOrderSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const promises = results.map((result) => {
+        return addDoc(collection(db, "newOrders"), {
+          orderNumber: result.No,
+          description: result.Description,
+          partNo: result.SourceNo,
+          quantity: result.Quantity,
+          start: result.StartingDateTime,
+          end: result.EndingDateTime,
+        });
+      });
+      await Promise.all(promises);
+      toast.success("Order added successfully");
+    } catch (err) {
+      toast.error("Error creating order" + err.message);
+      console.log(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const styles = {
     csvReader: {
       display: "flex",
@@ -45,7 +74,8 @@ const AddNewOrderDialog = (props) => {
       maxWidth="md"
       fullWidth
       open={props.addOrder}
-      onClose={props.toggleAddNewOrder}>
+      onClose={props.toggleAddNewOrder}
+    >
       <ToastContainer />
       <DialogTitle>Import Orders</DialogTitle>
       <Stack spacing={2} useFlexGap flexWrap="wrap" direction="row">
@@ -54,8 +84,10 @@ const AddNewOrderDialog = (props) => {
             header: true,
           }}
           onUploadAccepted={(results) => {
-            console.log(results);
-          }}>
+            setResults(results.data);
+            console.log(results.data);
+          }}
+        >
           {({
             getRootProps,
             acceptedFile,
@@ -67,7 +99,8 @@ const AddNewOrderDialog = (props) => {
                 <button
                   type="button"
                   {...getRootProps()}
-                  style={styles.browseFile}>
+                  style={styles.browseFile}
+                >
                   Browse files
                 </button>
                 <div style={styles.acceptedFile}>
@@ -84,7 +117,9 @@ const AddNewOrderDialog = (props) => {
       </Stack>
       <DialogActions>
         <ButtonGroup variant="contained">
-          <Button color="success">Import</Button>
+          <Button color="success" onClick={handleOrderSubmit}>
+            Import
+          </Button>
           <Button color="warning">Reset</Button>
           <Button color="error">Cancel</Button>
         </ButtonGroup>
