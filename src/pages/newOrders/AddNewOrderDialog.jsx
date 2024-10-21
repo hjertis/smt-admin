@@ -74,8 +74,7 @@ const AddNewOrderDialog = (props) => {
       maxWidth="md"
       fullWidth
       open={props.addOrder}
-      onClose={props.toggleAddNewOrder}
-    >
+      onClose={props.toggleAddNewOrder}>
       <ToastContainer />
       <DialogTitle>Import Orders</DialogTitle>
       <Stack spacing={2} useFlexGap flexWrap="wrap" direction="row">
@@ -85,9 +84,7 @@ const AddNewOrderDialog = (props) => {
           }}
           onUploadAccepted={(results) => {
             setResults(results.data);
-            console.log(results.data);
-          }}
-        >
+          }}>
           {({
             getRootProps,
             acceptedFile,
@@ -99,8 +96,7 @@ const AddNewOrderDialog = (props) => {
                 <button
                   type="button"
                   {...getRootProps()}
-                  style={styles.browseFile}
-                >
+                  style={styles.browseFile}>
                   Browse files
                 </button>
                 <div style={styles.acceptedFile}>
