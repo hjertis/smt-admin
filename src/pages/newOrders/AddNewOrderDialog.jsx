@@ -23,7 +23,7 @@ const AddNewOrderDialog = (props) => {
     setLoading(true);
     try {
       const promises = results.map((result) => {
-        return addDoc(collection(db, "newOrders"), {
+        return setDoc(doc(db, "newOrders", result.No), {
           orderNumber: result.No,
           description: result.Description,
           partNo: result.SourceNo,

@@ -8,7 +8,7 @@ import { DataGrid } from "@mui/x-data-grid";
 
 const NewOrders = () => {
   const [openNewAddOrder, setOpenNewAddOrder] = React.useState(false);
-  const [documents, setDocuments] = React.useState();
+  const [documents, setDocuments] = React.useState([]);
   const database = collection(db, "newOrders");
   const data = [];
 
@@ -27,13 +27,29 @@ const NewOrders = () => {
 
   console.log(documents);
 
+  const columns = [
+    {
+      field: "orderNumber",
+      headerName: "Order Number",
+      width: 150,
+      flex: 0.75,
+    },
+    { field: "description", headerName: "Description", width: 150, flex: 2 },
+    { field: "partNo", headerName: "Part No", width: 150, flex: 0.75 },
+    { field: "quantity", headerName: "Quantity", width: 150, flex: 0.5 },
+    { field: "start", headerName: "Start", width: 150, flex: 1 },
+    { field: "end", headerName: "End", width: 150, flex: 1 },
+  ];
+
   const toggleAddNewOrder = () => {
     setOpenNewAddOrder(!openNewAddOrder);
   };
 
   return (
     <Box>
-      <Grid container spacing={2}></Grid>
+      <Grid container spacing={2}>
+        <DataGrid rows={documents} columns={columns} sx={{ width: "75vw" }} />
+      </Grid>
       <Fab
         color="primary"
         aria-label="add-order"
