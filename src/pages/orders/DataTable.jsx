@@ -45,7 +45,6 @@ export default function DataTable() {
     <DataGrid
       columns={columns}
       rows={data}
-      autoHeight
       rowSelection={false}
       initialState={{
         columns: {
