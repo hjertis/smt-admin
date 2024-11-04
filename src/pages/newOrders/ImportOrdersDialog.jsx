@@ -14,7 +14,7 @@ import { useCSVReader } from "react-papaparse";
 import { setDoc, doc, addDoc, collection } from "firebase/firestore";
 import { db } from "../../firebase-config";
 
-const AddNewOrderDialog = (props) => {
+const ImportOrdersDialog = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [results, setResults] = React.useState([]);
 
@@ -75,7 +75,7 @@ const AddNewOrderDialog = (props) => {
       maxWidth="md"
       fullWidth
       open={props.addOrder}
-      onClose={props.toggleAddNewOrder}
+      onClose={props.toggleImportOrders}
     >
       <ToastContainer />
       <DialogTitle>Import Orders</DialogTitle>
@@ -128,4 +128,4 @@ const AddNewOrderDialog = (props) => {
   );
 };
 
-export default AddNewOrderDialog;
+export default ImportOrdersDialog;
