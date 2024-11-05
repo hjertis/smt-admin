@@ -1,6 +1,7 @@
 import React from "react";
 import { Edit, Print } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
+import EditNewOrders from "./EditNewOrders";
 
 export const columns = [
   {
@@ -20,11 +21,26 @@ export const columns = [
     width: 50,
     flex: 0.3,
     align: "center",
-    renderCell: (params) => (
-      <IconButton>
-        <Edit />
-      </IconButton>
-    ),
+    renderCell: (params) => {
+      const [openEdit, setOpenEdit] = React.useState(false);
+
+      const handleOpenEdit = () => {
+        setOpenEdit(!openEdit);
+      };
+
+      return (
+        <>
+          <IconButton onClick={handleOpenEdit}>
+            <Edit />
+          </IconButton>
+          <EditNewOrders
+            open={openEdit}
+            toggleClose={handleOpenEdit}
+            order={params.row}
+          />
+        </>
+      );
+    },
   },
   {
     field: "printOrder",

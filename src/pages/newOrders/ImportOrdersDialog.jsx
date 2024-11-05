@@ -5,6 +5,7 @@ import {
   Dialog,
   DialogActions,
   DialogTitle,
+  InputAdornment,
   Stack,
   TextField,
 } from "@mui/material";
@@ -79,7 +80,13 @@ const ImportOrdersDialog = (props) => {
     >
       <ToastContainer />
       <DialogTitle>Import Orders</DialogTitle>
-      <Stack spacing={2} useFlexGap flexWrap="wrap" direction="row">
+      <Stack
+        spacing={2}
+        useFlexGap
+        flexWrap="wrap"
+        direction="row"
+        sx={{ p: 2 }}
+      >
         <CSVReader
           config={{
             header: true,
@@ -95,22 +102,20 @@ const ImportOrdersDialog = (props) => {
             getRemoveFileProps,
           }) => (
             <>
-              <div style={styles.csvReader}>
-                <button
-                  type="button"
-                  {...getRootProps()}
-                  style={styles.browseFile}
-                >
-                  Browse files
-                </button>
-                <div style={styles.acceptedFile}>
-                  {acceptedFile && acceptedFile.name}
-                </div>
-                <button {...getRemoveFileProps()} style={styles.remove}>
-                  Remove
-                </button>
-              </div>
-              <ProgressBar style={styles.progressBarBackgroundColor} />
+              <TextField
+                variant="outlined"
+                fullWidth
+                value={acceptedFile?.name}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <Button variant="contained" {...getRootProps()}>
+                        Browse
+                      </Button>
+                    </InputAdornment>
+                  ),
+                }}
+              />
             </>
           )}
         </CSVReader>
@@ -120,8 +125,9 @@ const ImportOrdersDialog = (props) => {
           <Button color="success" onClick={handleOrderSubmit}>
             Import
           </Button>
-          <Button color="warning">Reset</Button>
-          <Button color="error">Cancel</Button>
+          <Button color="error" onClick={props.toggleImportOrders}>
+            Cancel
+          </Button>
         </ButtonGroup>
       </DialogActions>
     </Dialog>
