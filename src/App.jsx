@@ -24,6 +24,7 @@ import SignIn from "./pages/SignIn";
 import NewOrders from "./pages/NewOrders";
 import Products from "./pages/Products";
 import PrivateRoute from "./context/PrivateRoute";
+import Planning from "./pages/Planning";
 
 function App() {
   const [open, setOpen] = React.useState(false);
@@ -48,7 +49,8 @@ function App() {
                 justifyContent: "center",
                 pt: { xs: 5, sm: 8 },
                 pb: { xs: 8, sm: 12 },
-              }}>
+              }}
+            >
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/orders" element={<Orders />} />
@@ -56,6 +58,7 @@ function App() {
                 <Route path="/defects" element={<Defects />} />
                 <Route path="/tasks" element={<Tasks />} />
                 <Route path="/newOrders" element={<NewOrders />} />
+                <Route path="/planning" element={<Planning />} />
                 <Route path="/products" element={<Products />} />
                 <Route
                   path="/account"
@@ -70,7 +73,8 @@ function App() {
               </Routes>
               <Box
                 component="footer"
-                sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}>
+                sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
+              >
                 Footer
               </Box>
             </Container>

@@ -25,7 +25,8 @@ const DrawerList = (props) => {
       <Box
         sx={{ width: 250 }}
         role="persistent"
-        onClick={props.toggleDrawer(false)}>
+        onClick={props.toggleDrawer(false)}
+      >
         <List>
           <Link href="/products">
             <ListItem disablePadding>
@@ -47,14 +48,16 @@ const DrawerList = (props) => {
               </ListItemButton>
             </ListItem>
           </Link>
-          <ListItem disablePadding>
-            <ListItemButton>
-              <ListItemIcon>
-                <Mail />
-              </ListItemIcon>
-              <ListItemText primary="Inbox" />
-            </ListItemButton>
-          </ListItem>
+          <Link href="/planning">
+            <ListItem disablePadding>
+              <ListItemButton>
+                <ListItemIcon>
+                  <Mail />
+                </ListItemIcon>
+                <ListItemText primary="DnD" />
+              </ListItemButton>
+            </ListItem>
+          </Link>
         </List>
         <Divider />
         <List>
