@@ -15,6 +15,7 @@ export const columns = [
   { field: "quantity", headerName: "Quantity", width: 150, flex: 0.5 },
   { field: "start", headerName: "Start", width: 150, flex: 1 },
   { field: "end", headerName: "End", width: 150, flex: 1 },
+  { field: "status", headerName: "Status", width: 150, flex: 1 },
   {
     field: "editOrder",
     headerName: "Edit",

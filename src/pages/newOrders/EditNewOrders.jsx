@@ -5,17 +5,65 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  MenuItem,
   Stack,
   TextField,
 } from "@mui/material";
+import { doc, updateDoc } from "firebase/firestore";
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { db } from "../../firebase-config";
 
 export default function EditNewOrders(props) {
+  const newOrderFormRef = React.useRef();
+  const orderNumberRef = React.useRef();
+  const orderDescriptionRef = React.useRef();
+  const orderQuantityRef = React.useRef();
+  const orderPartNoRef = React.useRef();
+  const orderStartRef = React.useRef();
+  const orderEndRef = React.useRef();
+  const orderStatusRef = React.useRef();
+  const orderNotesRef = React.useRef();
   const [loading, setLoading] = React.useState(false);
   const editOrderFormRef = React.useRef();
-  const orderNumberRef = React.useRef();
+
+  const handleNewOrderFormReset = () => {
+    newOrderFormRef.current.reset();
+    setLoading(false);
+  };
+
+  const handleNewOrderCancel = () => {
+    handleNewOrderFormReset();
+    props.toggleClose();
+  };
+
+  const handleNewOrderSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const docRef = await updateDoc(doc(db, "newOrders", props.order.id), {
+        orderNumber: orderNumberRef.current.value,
+        description: orderDescriptionRef.current.value,
+        partNo: orderPartNoRef.current.value,
+        quantity: orderQuantityRef.current.value,
+        start: orderStartRef.current.value,
+        end: orderEndRef.current.value,
+        status: orderStatusRef.current.value,
+        notes: orderNotesRef.current.value,
+        updated: Date.now().toString(),
+      });
+      toast.success("Order successfully updated");
+    } catch (err) {
+      toast.error("Error creating order" + err.message);
+      console.log(err.message);
+    } finally {
+      setLoading(false);
+      props.toggleClose();
+      window.location.reload();
+    }
+  };
+
   return (
     <Dialog
       open={props.open}
@@ -26,14 +74,7 @@ export default function EditNewOrders(props) {
       <ToastContainer />
       <DialogTitle>Edit order</DialogTitle>
       <DialogContent sx={{ display: "flex", flexDirection: "column" }}>
-        <form
-          noValidate
-          onSubmit={(e) => {
-            e.preventDefault();
-          }}
-          ref={editOrderFormRef}
-          style={{ width: "100%" }}
-        >
+        <form noValidate ref={newOrderFormRef} style={{ width: "100%" }}>
           <Stack spacing={2} useFlexGap flexWrap="wrap" direction="row">
             <TextField
               required
@@ -41,8 +82,8 @@ export default function EditNewOrders(props) {
               id="order-number"
               label="Order Number"
               disabled={loading}
-              inputRef={orderNumberRef}
               defaultValue={props.order.orderNumber}
+              inputRef={orderNumberRef}
               sx={{ mt: 1 }}
             />
             <TextField
@@ -52,6 +93,7 @@ export default function EditNewOrders(props) {
               label="Description"
               disabled={loading}
               defaultValue={props.order.description}
+              inputRef={orderDescriptionRef}
             />
             <TextField
               required
@@ -60,6 +102,7 @@ export default function EditNewOrders(props) {
               label="Part Number"
               disabled={loading}
               defaultValue={props.order.partNo}
+              inputRef={orderPartNoRef}
             />
             <TextField
               required
@@ -68,6 +111,7 @@ export default function EditNewOrders(props) {
               label="Quantity"
               disabled={loading}
               defaultValue={props.order.quantity}
+              inputRef={orderQuantityRef}
             />
             <TextField
               required
@@ -76,6 +120,7 @@ export default function EditNewOrders(props) {
               label="Start"
               disabled={loading}
               defaultValue={props.order.start}
+              inputRef={orderStartRef}
             />
             <TextField
               required
@@ -84,16 +129,46 @@ export default function EditNewOrders(props) {
               label="End"
               disabled={loading}
               defaultValue={props.order.end}
+              inputRef={orderEndRef}
             />
+            <TextField
+              fullWidth
+              multiline
+              id="notes"
+              label="Notes"
+              disabled={loading}
+              defaultValue={props.order.notes}
+              inputRef={orderNotesRef}
+            />
+            <TextField
+              required
+              select
+              fullWidth
+              id="status"
+              label="Status"
+              disabled={loading}
+              defaultValue={props.order.status}
+              inputRef={orderStatusRef}
+            >
+              <MenuItem value={"Finished"}>Finished</MenuItem>
+              <MenuItem value={"Started"}>Started</MenuItem>
+              <MenuItem value={"Released"}>Released</MenuItem>
+              <MenuItem value={"Firm Planned"}>Firm Planned</MenuItem>
+            </TextField>
           </Stack>
         </form>
       </DialogContent>
       <DialogActions>
         <ButtonGroup variant="contained">
-          <Button type="submit" onClick={() => {}} disabled={loading}>
+          <Button
+            type="submit"
+            onClick={handleNewOrderSubmit}
+            disabled={loading}
+          >
             Save
           </Button>
-          <Button>Cancel</Button>
+          <Button onClick={handleNewOrderCancel}>Cancel</Button>
+          <Button onClick={handleNewOrderFormReset}>Clear</Button>
         </ButtonGroup>
       </DialogActions>
     </Dialog>

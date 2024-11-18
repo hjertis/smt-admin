@@ -31,6 +31,7 @@ const ImportOrdersDialog = (props) => {
           quantity: result.Quantity,
           start: result.StartingDateTime,
           end: result.EndingDateTime,
+          status: result.Status,
           updated: Date.now().toString(),
         });
       });
