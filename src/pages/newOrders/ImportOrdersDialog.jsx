@@ -27,22 +27,25 @@ const ImportOrdersDialog = (props) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const promises = results.map((result) => {
-        return setDoc(doc(db, "newOrders", result.No), {
-          orderNumber: result.No,
-          description: result.Description,
-          partNo: result.SourceNo,
-          quantity: result.Quantity,
-          start: Timestamp.fromDate(
-            dayjs(result.StartingDateTime, "DD-MM-YYYY").toDate()
-          ),
-          end: Timestamp.fromDate(
-            dayjs(result.EndingDateTime, "DD-MM-YYYY").toDate()
-          ),
-          status: result.Status,
-          updated: Timestamp.fromDate(new Date()),
-        });
-      });
+      const promises = results.map(
+        (result) => {
+          return setDoc(doc(db, "newOrders", result.No), {
+            orderNumber: result.No,
+            description: result.Description,
+            partNo: result.SourceNo,
+            quantity: result.Quantity,
+            start: Timestamp.fromDate(
+              dayjs(result.StartingDateTime, "DD-MM-YYYY").toDate()
+            ),
+            end: Timestamp.fromDate(
+              dayjs(result.EndingDateTime, "DD-MM-YYYY").toDate()
+            ),
+            status: result.Status,
+            updated: Timestamp.fromDate(new Date()),
+          });
+        },
+        { merge: true }
+      );
       await Promise.all(promises);
       toast.success("Order added successfully");
     } catch (err) {
