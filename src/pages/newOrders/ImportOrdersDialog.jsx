@@ -12,12 +12,16 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCSVReader } from "react-papaparse";
-import { setDoc, doc, addDoc, collection } from "firebase/firestore";
+import { setDoc, doc, addDoc, collection, Timestamp } from "firebase/firestore";
 import { db } from "../../firebase-config";
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 const ImportOrdersDialog = (props) => {
   const [loading, setLoading] = React.useState(false);
   const [results, setResults] = React.useState([]);
+
+  dayjs.extend(customParseFormat);
 
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
@@ -29,10 +33,14 @@ const ImportOrdersDialog = (props) => {
           description: result.Description,
           partNo: result.SourceNo,
           quantity: result.Quantity,
-          start: result.StartingDateTime,
-          end: result.EndingDateTime,
+          start: Timestamp.fromDate(
+            dayjs(result.StartingDateTime, "DD-MM-YYYY").toDate()
+          ),
+          end: Timestamp.fromDate(
+            dayjs(result.EndingDateTime, "DD-MM-YYYY").toDate()
+          ),
           status: result.Status,
-          updated: Date.now().toString(),
+          updated: Timestamp.fromDate(new Date()),
         });
       });
       await Promise.all(promises);

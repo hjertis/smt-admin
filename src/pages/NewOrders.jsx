@@ -55,9 +55,22 @@ const NewOrders = () => {
                 showQuickFilter: true,
               },
             }}
-            disableColumnFilter
+            initialState={{
+              filter: {
+                filterModel: {
+                  items: [
+                    {
+                      field: "status",
+                      operator: "doesNotContain",
+                      value: "Finished",
+                    },
+                  ],
+                },
+              },
+            }}
             disableColumnSelector
             disableDensitySelector
+            disableRowSelectionOnClick
           />
         </Grid>
       </Grid>
