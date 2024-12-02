@@ -9,11 +9,12 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { doc, updateDoc } from "firebase/firestore";
+import { doc, Timestamp, updateDoc } from "firebase/firestore";
 import React from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../../firebase-config";
+import dayjs from "dayjs";
 
 export default function EditNewOrders(props) {
   const newOrderFormRef = React.useRef();
@@ -47,8 +48,12 @@ export default function EditNewOrders(props) {
         description: orderDescriptionRef.current.value,
         partNo: orderPartNoRef.current.value,
         quantity: orderQuantityRef.current.value,
-        start: orderStartRef.current.value,
-        end: orderEndRef.current.value,
+        start: Timestamp.fromDate(
+          dayjs(orderStartRef.current.value, "DD-MM-YYYY").toDate()
+        ),
+        end: Timestamp.fromDate(
+          dayjs(orderEndRef.current.value, "DD-MM-YYYY").toDate()
+        ),
         status: orderStatusRef.current.value,
         notes: orderNotesRef.current.value,
         updated: Date.now().toString(),
@@ -119,7 +124,10 @@ export default function EditNewOrders(props) {
               id="start"
               label="Start"
               disabled={loading}
-              defaultValue={props.order.start}
+              defaultValue={props.order.start
+                .toDate()
+                .toISOString()
+                .slice(0, 10)}
               inputRef={orderStartRef}
             />
             <TextField
@@ -128,7 +136,7 @@ export default function EditNewOrders(props) {
               id="end"
               label="End"
               disabled={loading}
-              defaultValue={props.order.end}
+              defaultValue={props.order.end.toDate().toISOString().slice(0, 10)}
               inputRef={orderEndRef}
             />
             <TextField
