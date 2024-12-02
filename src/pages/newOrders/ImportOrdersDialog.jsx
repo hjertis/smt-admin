@@ -105,6 +105,7 @@ const ImportOrdersDialog = (props) => {
           }}
           onUploadAccepted={(results) => {
             setResults(results.data);
+            console.log(results.data);
           }}
         >
           {({
