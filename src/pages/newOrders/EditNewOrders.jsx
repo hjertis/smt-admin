@@ -49,10 +49,10 @@ export default function EditNewOrders(props) {
         partNo: orderPartNoRef.current.value,
         quantity: orderQuantityRef.current.value,
         start: Timestamp.fromDate(
-          dayjs(orderStartRef.current.value, "DD-MM-YYYY").toDate()
+          dayjs(orderStartRef.current.value, "YYYY-MM-DD").toDate()
         ),
         end: Timestamp.fromDate(
-          dayjs(orderEndRef.current.value, "DD-MM-YYYY").toDate()
+          dayjs(orderEndRef.current.value, "YYYY-MM-DD").toDate()
         ),
         status: orderStatusRef.current.value,
         notes: orderNotesRef.current.value,
@@ -65,7 +65,7 @@ export default function EditNewOrders(props) {
     } finally {
       setLoading(false);
       props.toggleClose();
-      window.location.reload();
+      /* window.location.reload(); */
     }
   };
 
