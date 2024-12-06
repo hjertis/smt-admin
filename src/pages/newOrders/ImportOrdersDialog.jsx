@@ -13,15 +13,7 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCSVReader } from "react-papaparse";
-import {
-  setDoc,
-  doc,
-  addDoc,
-  collection,
-  Timestamp,
-  getDoc,
-  updateDoc,
-} from "firebase/firestore";
+import { setDoc, doc, Timestamp, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
@@ -53,7 +45,7 @@ const ImportOrdersDialog = (props) => {
               dayjs(result.EndingDateTime, "DD-MM-YYYY").toDate()
             ),
             status: result.Status,
-            notes: result.Notes, // Only update notes if it's a new document
+            /* notes: result.Notes, // Only update notes if it's a new document */
             updated: Timestamp.fromDate(new Date()),
           });
         } else {

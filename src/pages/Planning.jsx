@@ -18,6 +18,7 @@ import { db } from "../firebase-config.js";
 import * as dates from "../data/dates.js";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from "dayjs";
+import DragAndDropCalendarPage from "./planning/DragAndDropCalendar.jsx";
 
 export default function Planning(props) {
   const database = collection(db, "newOrders");
@@ -25,6 +26,12 @@ export default function Planning(props) {
   const [selectedEvent, setSelectedEvent] = React.useState();
   const [modalState, setModalState] = React.useState(false);
   const [orderInformation, setOrderInformation] = React.useState({});
+
+  moment.locale("da", {
+    week: {
+      dow: 1,
+    },
+  });
 
   React.useEffect(() => {
     const getDocuments = async () => {
@@ -72,7 +79,7 @@ export default function Planning(props) {
         </Grid>
       </Grid>
 
-      <Calendar
+      {/* <Calendar
         localizer={momentLocalizer(moment)}
         events={documents.map((document) => ({
           title: document.orderNumber + " - " + document.description,
@@ -80,18 +87,22 @@ export default function Planning(props) {
           end: document.end.toDate(),
           id: document.id,
           allDay: true,
-        }))}
-        components={components}
-        defaultDate={defaultDate}
-        views={views}
-        max={max}
-        showMultiDayTimes
-        showAllEvents
-        step={60}
-        startAccessor={"start"}
-        endAccessor={"end"}
-        style={{ height: 1600, width: 1600 }}
-        onSelectEvent={(e) => handleSelectedEvent(e)}
+          }))}
+          components={components}
+          defaultDate={defaultDate}
+          views={views}
+          max={max}
+          showMultiDayTimes
+          showAllEvents
+          step={60}
+          startAccessor={"start"}
+          endAccessor={"end"}
+          style={{ height: 1600, width: 1600 }}
+          onSelectEvent={(e) => handleSelectedEvent(e)}
+          /> */}
+      <DragAndDropCalendarPage
+        localizer={momentLocalizer(moment)}
+        documents={documents}
       />
       <Dialog
         open={modalState}
