@@ -130,6 +130,7 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
           eventPropGetter={eventPropGetter}
           popup
           resizable
+          selectable
         />
       </div>
     </React.Fragment>

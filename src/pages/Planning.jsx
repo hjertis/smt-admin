@@ -11,7 +11,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { momentLocalizer, Views } from "react-big-calendar";
+import { momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase-config.js";
@@ -51,25 +51,6 @@ export default function Planning(props) {
     setModalState(true);
   };
 
-  const ColoredDateCellWrapper = ({ children }) =>
-    React.cloneElement(React.Children.only(children), {
-      style: {
-        backgroundColor: "lightblue",
-      },
-    });
-
-  const { components, defaultDate, max, views } = React.useMemo(
-    () => ({
-      components: {
-        timeSlotWrapper: ColoredDateCellWrapper,
-      },
-      defaultDate: new Date(),
-      max: new Date(),
-      views: Object.keys(Views).map((k) => Views[k]),
-    }),
-    []
-  );
-
   return (
     <Box>
       <Grid container spacing={2}>
@@ -85,8 +66,7 @@ export default function Planning(props) {
         open={modalState}
         onClose={() => setModalState(false)}
         maxWidth="md"
-        fullWidth
-      >
+        fullWidth>
         <DialogTitle>Order Information</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ pt: 2 }}>
