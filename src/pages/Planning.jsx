@@ -11,11 +11,10 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import { Calendar, momentLocalizer, Views } from "react-big-calendar";
+import { momentLocalizer, Views } from "react-big-calendar";
 import moment from "moment";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "../firebase-config.js";
-import * as dates from "../data/dates.js";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import dayjs from "dayjs";
 import DragAndDropCalendarPage from "./planning/DragAndDropCalendar.jsx";
@@ -27,7 +26,7 @@ export default function Planning(props) {
   const [modalState, setModalState] = React.useState(false);
   const [orderInformation, setOrderInformation] = React.useState({});
 
-  moment.locale("da", {
+  moment.updateLocale("da", {
     week: {
       dow: 1,
     },
@@ -78,28 +77,6 @@ export default function Planning(props) {
           <h1>Planning</h1>
         </Grid>
       </Grid>
-
-      {/* <Calendar
-        localizer={momentLocalizer(moment)}
-        events={documents.map((document) => ({
-          title: document.orderNumber + " - " + document.description,
-          start: document.start.toDate(),
-          end: document.end.toDate(),
-          id: document.id,
-          allDay: true,
-          }))}
-          components={components}
-          defaultDate={defaultDate}
-          views={views}
-          max={max}
-          showMultiDayTimes
-          showAllEvents
-          step={60}
-          startAccessor={"start"}
-          endAccessor={"end"}
-          style={{ height: 1600, width: 1600 }}
-          onSelectEvent={(e) => handleSelectedEvent(e)}
-          /> */}
       <DragAndDropCalendarPage
         localizer={momentLocalizer(moment)}
         documents={documents}

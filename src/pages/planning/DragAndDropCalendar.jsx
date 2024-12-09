@@ -24,6 +24,7 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
         end: document.end.toDate(),
         allDay: true,
         id: document.id,
+        status: document.status,
       }))
     );
   }, [documents]);
@@ -86,14 +87,32 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
     resizeEvent({ event, start, end });
   };
 
-  const { components, defaultDate, max, views } = React.useMemo(
+  const { defaultDate } = React.useMemo(
     () => ({
       defaultDate: new Date(),
-      max: new Date(),
-      views: Object.keys(Views).map((k) => Views[k]),
     }),
     []
   );
+
+  const eventPropGetter = (event) => {
+    let backgroundColor;
+    switch (event.status) {
+      case "Finished":
+        backgroundColor = "#00ff00";
+        break;
+      case "Firm Planned":
+        backgroundColor = "#5539CC";
+        break;
+      case "Released":
+        backgroundColor = "#2C3539";
+        break;
+      case "Started":
+        backgroundColor = "#1aa260";
+      default:
+        backgroundColor = "#ffffff";
+    }
+    return { style: { backgroundColor } };
+  };
 
   return (
     <React.Fragment>
@@ -108,6 +127,7 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
           startAccessor={"start"}
           endAccessor={"end"}
           style={{ height: 1600, width: 1600 }}
+          eventPropGetter={eventPropGetter}
           popup
           resizable
         />
