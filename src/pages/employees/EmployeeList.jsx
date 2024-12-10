@@ -1,35 +1,18 @@
 import React from "react";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase-config";
 import { Box, Typography } from "@mui/material";
+import useFirebase from "../../hooks/useFirebase";
 
 export default function EmployeeList(props) {
-  const [documents, setDocuments] = React.useState([]);
-  const database = collection(db, "employees");
   const employees = [];
-
-  React.useEffect(() => {
-    const getEmployees = async () => {
-      const querySnapshot = await getDocs(database);
-      setDocuments(
-        querySnapshot.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
-      );
-    };
-    getEmployees();
-  }, []);
-
-  console.log(employees);
+  const { data, loading, error } = useFirebase("employees");
 
   return (
     <Box textAlign="center">
       <Typography variant="h5">Employees</Typography>
       <Box>
-        {documents.length !== 0 && (
+        {data.length !== 0 && (
           <Box>
-            {documents.map((document) => {
+            {data.map((document) => {
               employees.push(document);
             })}
             <Box>
@@ -42,7 +25,7 @@ export default function EmployeeList(props) {
             </Box>
           </Box>
         )}
-        {documents.length === 0 && <Typography>Loading...</Typography>}
+        {data.length === 0 && <Typography>Loading...</Typography>}
       </Box>
     </Box>
   );

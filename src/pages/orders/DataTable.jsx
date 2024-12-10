@@ -1,17 +1,14 @@
 import React from "react";
 import { columns } from "./columns.jsx";
 import { DataGrid } from "@mui/x-data-grid";
-import { collection, getDocs } from "firebase/firestore";
-import { db } from "../../firebase-config";
+import useFirebase from "../../hooks/useFirebase.jsx";
 
 export default function DataTable() {
-  const [documents, setDocuments] = React.useState([]);
-  const [subCollections, setSubCollections] = React.useState([]);
-  const database = collection(db, "orders");
-  const data = [];
+  const data2 = [];
+  const { data, error, loading } = useFirebase("orders");
 
-  documents.forEach((a) => {
-    data.push({
+  data.forEach((a) => {
+    data2.push({
       id: a.id,
       orderNumber: a.orderNumber,
       orderDescription: a.orderDescription,
@@ -28,23 +25,10 @@ export default function DataTable() {
     });
   });
 
-  React.useEffect(() => {
-    const getAllDocs = async () => {
-      const docs = await getDocs(database);
-      setDocuments(
-        docs.docs.map((doc) => ({
-          ...doc.data(),
-          id: doc.id,
-        }))
-      );
-    };
-    getAllDocs();
-  }, []);
-
   return (
     <DataGrid
       columns={columns}
-      rows={data}
+      rows={data2}
       rowSelection={false}
       initialState={{
         columns: {

@@ -14,7 +14,6 @@ import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 
 import Home from "./pages/Home";
-import Orders from "./pages/Orders";
 import Employees from "./pages/Employees";
 import Defects from "./pages/Defects";
 import Tasks from "./pages/Tasks";
@@ -25,6 +24,7 @@ import NewOrders from "./pages/NewOrders";
 import Products from "./pages/Products";
 import PrivateRoute from "./context/PrivateRoute";
 import Planning from "./pages/Planning";
+import { FirebaseProvider } from "./context/FirebaseContext";
 
 function App() {
   const [open, setOpen] = React.useState(false);
@@ -35,51 +35,50 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <AuthProvider>
-          <BrowserRouter>
-            <CssBaseline />
-            <Header title="SMT Administration" toggleDrawer={toggleDrawer} />
-            <DrawerList open={open} toggleDrawer={toggleDrawer} />
-            <Container
-              maxWidth="xl"
-              sx={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                pt: { xs: 5, sm: 8 },
-                pb: { xs: 8, sm: 12 },
-              }}
-            >
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/orders" element={<Orders />} />
-                <Route path="/employees" element={<Employees />} />
-                <Route path="/defects" element={<Defects />} />
-                <Route path="/tasks" element={<Tasks />} />
-                <Route path="/newOrders" element={<NewOrders />} />
-                <Route path="/planning" element={<Planning />} />
-                <Route path="/products" element={<Products />} />
-                <Route
-                  path="/account"
-                  element={
-                    <PrivateRoute>
-                      <Account />
-                    </PrivateRoute>
-                  }
-                />
-                <Route path="/signup" element={<SignUp />} />
-                <Route path="/signin" element={<SignIn />} />
-              </Routes>
-              <Box
-                component="footer"
-                sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}
-              >
-                Footer
-              </Box>
-            </Container>
-          </BrowserRouter>
-        </AuthProvider>
+        <FirebaseProvider>
+          <AuthProvider>
+            <BrowserRouter>
+              <CssBaseline />
+              <Header title="SMT Administration" toggleDrawer={toggleDrawer} />
+              <DrawerList open={open} toggleDrawer={toggleDrawer} />
+              <Container
+                maxWidth="xl"
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  pt: { xs: 5, sm: 8 },
+                  pb: { xs: 8, sm: 12 },
+                }}>
+                <Routes>
+                  <Route path="/" element={<Home />} />
+                  <Route path="/employees" element={<Employees />} />
+                  <Route path="/defects" element={<Defects />} />
+                  <Route path="/tasks" element={<Tasks />} />
+                  <Route path="/newOrders" element={<NewOrders />} />
+                  <Route path="/planning" element={<Planning />} />
+                  <Route path="/products" element={<Products />} />
+                  <Route
+                    path="/account"
+                    element={
+                      <PrivateRoute>
+                        <Account />
+                      </PrivateRoute>
+                    }
+                  />
+                  <Route path="/signup" element={<SignUp />} />
+                  <Route path="/signin" element={<SignIn />} />
+                </Routes>
+                <Box
+                  component="footer"
+                  sx={{ position: "fixed", bottom: 0, left: 0, right: 0 }}>
+                  Footer
+                </Box>
+              </Container>
+            </BrowserRouter>
+          </AuthProvider>
+        </FirebaseProvider>
       </LocalizationProvider>
     </ThemeProvider>
   );
