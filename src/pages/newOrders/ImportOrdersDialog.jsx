@@ -145,8 +145,7 @@ const ImportOrdersDialog = (props) => {
       maxWidth="md"
       fullWidth
       open={props.addOrder}
-      onClose={props.toggleImportOrders}
-    >
+      onClose={props.toggleImportOrders}>
       <ToastContainer />
       <DialogTitle>Import Orders</DialogTitle>
       <Stack
@@ -154,8 +153,7 @@ const ImportOrdersDialog = (props) => {
         useFlexGap
         flexWrap="wrap"
         direction="row"
-        sx={{ p: 2 }}
-      >
+        sx={{ p: 2 }}>
         <CSVReader
           config={{
             header: true,
@@ -163,14 +161,8 @@ const ImportOrdersDialog = (props) => {
           onUploadAccepted={(results) => {
             setResults(results.data);
             console.log(results.data);
-          }}
-        >
-          {({
-            getRootProps,
-            acceptedFile,
-            ProgressBar,
-            getRemoveFileProps,
-          }) => (
+          }}>
+          {({ getRootProps, acceptedFile }) => (
             <>
               <TextField
                 variant="outlined"
@@ -183,8 +175,7 @@ const ImportOrdersDialog = (props) => {
                       <Button
                         variant="contained"
                         disabled={loading}
-                        {...getRootProps()}
-                      >
+                        {...getRootProps()}>
                         Browse
                       </Button>
                     </InputAdornment>
@@ -201,15 +192,13 @@ const ImportOrdersDialog = (props) => {
           <Button
             color="success"
             disabled={loading}
-            onClick={handleOrderSubmit}
-          >
+            onClick={handleOrderSubmit}>
             Import
           </Button>
           <Button
             color="error"
             disabled={loading}
-            onClick={props.toggleImportOrders}
-          >
+            onClick={props.toggleImportOrders}>
             Cancel
           </Button>
         </ButtonGroup>

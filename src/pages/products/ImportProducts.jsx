@@ -15,6 +15,31 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
 export default function ImportProducts(props) {
+  const [loading, setLoading] = React.useState(false);
+  const [results, setResults] = React.useState([]);
+  const [progress, setProgress] = React.useState(0);
+
+  dayjs.extend(customParseFormat);
+
+  const handleProductSubmit = async (e) => {
+    e.preventDefault();
+  };
+
+  const { CSVReader } = useCSVReader();
+
+  React.useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (loading) {
+        setProgress((prevProgress) => {
+          if (prevProgress >= 100) {
+            return 0;
+          }
+          return Math.min(prevProgress + 10, 100);
+        });
+      }
+    }, 500);
+  }, [loading]);
+
   return (
     <Dialog
       maxWidth="md"
