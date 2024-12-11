@@ -8,6 +8,7 @@ import useFirebase from "../hooks/useFirebase";
 const Products = () => {
   const [openAddProduct, setOpenAddProduct] = React.useState(false);
   const [openImportProducts, setOpenImportProducts] = React.useState(false);
+  const { data, error, loading } = useFirebase("products");
 
   const toggleAddProduct = () => {
     setOpenAddProduct(!openAddProduct);
@@ -28,7 +29,7 @@ const Products = () => {
         </Grid>
         <Grid item>
           <DataGrid
-            rows={[]}
+            rows={data || []}
             columns={[]}
             sx={{ width: "75vw", minHeight: "300px" }}
           />
