@@ -1,9 +1,11 @@
 import { Box, Button, ButtonGroup, Grid } from "@mui/material";
-import { DataGrid } from "@mui/x-data-grid";
+import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import React from "react";
 import AddProduct from "./products/AddProduct";
 import ImportProducts from "./products/ImportProducts";
 import useFirebase from "../hooks/useFirebase";
+import { columns } from "./products/columns";
+import EditProductDialog from "./products/EditProductDialog";
 
 const Products = () => {
   const [openAddProduct, setOpenAddProduct] = React.useState(false);
@@ -30,8 +32,27 @@ const Products = () => {
         <Grid item>
           <DataGrid
             rows={data || []}
-            columns={[]}
+            columns={columns}
             sx={{ width: "75vw", minHeight: "300px" }}
+            slots={{ toolbar: GridToolbar }}
+            slotProps={{
+              toolbar: {
+                showQuickFilter: true,
+              },
+            }}
+            initialState={{
+              filter: {
+                filterModel: {
+                  items: [
+                    {
+                      field: "status",
+                      operator: "isAnyOf",
+                      value: ["Released Sales", "R&D", "Prototype"],
+                    },
+                  ],
+                },
+              },
+            }}
           />
         </Grid>
       </Grid>
