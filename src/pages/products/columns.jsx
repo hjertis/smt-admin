@@ -46,7 +46,7 @@ export const columns = [
       };
       return (
         <>
-          <IconButton>
+          <IconButton onClick={handleOpenEdit}>
             <Edit />
           </IconButton>
           <EditProductDialog

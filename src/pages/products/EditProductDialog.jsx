@@ -1,10 +1,13 @@
 import {
   Dialog,
+  DialogActions,
   DialogContent,
   DialogTitle,
   Stack,
   TextField,
+  Typography,
 } from "@mui/material";
+import { Timestamp } from "firebase/firestore";
 import React from "react";
 import { ToastContainer } from "react-toastify";
 
@@ -36,11 +39,38 @@ export default function EditProductDialog(props) {
               required
               defaultValue={props.product.partNo}
               inputRef={partNoRef}
-              sx={{ mt: 2 }}
             />
+            <TextField
+              label="Description"
+              id="product-description"
+              variant="outlined"
+              fullWidth
+              required
+              defaultValue={props.product.description}
+            />
+            <TextField
+              label="Status"
+              id="product-status"
+              variant="outlined"
+              fullWidth
+              required
+              defaultValue={props.product.status}
+            />
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              sx={{ height: "40px", overflow: "hidden" }}>
+              Last updated:{" "}
+              {Timestamp.fromDate(props.product.updated.toDate())
+                .toDate()
+                .toDateString()}
+            </Typography>
           </Stack>
         </form>
       </DialogContent>
+      <DialogActions>
+        <button>Save</button>
+      </DialogActions>
     </Dialog>
   );
 }
