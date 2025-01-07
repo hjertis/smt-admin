@@ -45,7 +45,7 @@ const ImportOrdersDialog = (props) => {
               dayjs(result.EndingDateTime, "DD-MM-YYYY").toDate()
             ),
             status: result.Status,
-            notes: result.Notes, // Only update notes if it's a new document
+            notes: result.Notes || "", // Only update notes if it's a new document
             updated: Timestamp.fromDate(new Date()),
           });
         } else {
@@ -85,7 +85,7 @@ const ImportOrdersDialog = (props) => {
       toast.success("Orders submitted successfully");
     } catch (error) {
       console.error("Error submitting orders:", error);
-      toast.error("Error submitting orders");
+      toast.error("Error submitting orders", error);
     } finally {
       setLoading(false);
     }
