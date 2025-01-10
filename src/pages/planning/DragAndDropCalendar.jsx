@@ -7,6 +7,7 @@ import { db } from "../../firebase-config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./dnd/dragAndDrop/styles.scss";
+import EventInfo from "./EventInfo";
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 
@@ -25,6 +26,11 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
         allDay: true,
         id: document.id,
         status: document.status,
+        state: document.state,
+        description: document.description,
+        partNo: document.partNo,
+        quantity: document.quantity,
+        updated: document.updated.toDate(),
       }))
     );
   }, [documents]);
@@ -96,7 +102,7 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
 
   const eventPropGetter = (event) => {
     let backgroundColor;
-    switch (event.status) {
+    /*     switch (event.status) {
       case "Finished":
         backgroundColor = "#00ff00";
         break;
@@ -110,8 +116,59 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
         backgroundColor = "#1aa260";
       default:
         backgroundColor = "#ffffff";
+    } */
+    switch (event.state) {
+      case "SMT":
+        backgroundColor = "#FF0000";
+        break;
+      case "THT":
+        backgroundColor = "#0000FF";
+        break;
+      default:
+        backgroundColor = "#00ff00";
     }
     return { style: { backgroundColor } };
+  };
+
+  const [currentEvent, setCurrentEvent] = React.useState(null);
+  const [eventInfoModalOpen, setEventInfoModalOpen] = React.useState(false);
+  const [openSlot, setOpenSlot] = React.useState(false);
+
+  const handleSelectEvent = (event) => {
+    setCurrentEvent(event);
+    setEventInfoModalOpen(true);
+  };
+
+  const handleSelectSlot = (event) => {
+    setOpenSlot(true);
+    setCurrentEvent(event);
+  };
+
+  const handleClose = () => {
+    setOpenSlot(false);
+  };
+
+  const onDeleteEvent = async () => {
+    setEvents(() => [...events].filter((e) => e.id !== currentEvent.id));
+    setEventInfoModalOpen(false);
+  };
+
+  const addEvent = async (e) => {
+    e.preventDefault();
+    const data = {
+      start: Timestamp.fromDate(new Date()),
+      end: Timestamp.fromDate(new Date()),
+      id: currentEvent.orderNo,
+      title: currentEvent.orderNo + " - " + currentEvent.description,
+      description: currentEvent.description,
+      partNo: currentEvent.partNo,
+      quantity: currentEvent.quantity,
+      state: currentEvent.state,
+      updated: Timestamp.fromDate(new Date()),
+    };
+    const newEvents = [...events, data];
+    setEvents(newEvents);
+    handleClose();
   };
 
   return (
@@ -124,6 +181,8 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
           localizer={localizer}
           onEventDrop={handleEventDrop}
           onEventResize={handleEventResize}
+          onSelectEvent={handleSelectEvent}
+          /* onSelectSlot={handleSelectSlot} */
           startAccessor={"start"}
           endAccessor={"end"}
           style={{ height: 1600, width: 1600 }}
@@ -133,6 +192,12 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
           selectable
         />
       </div>
+      <EventInfo
+        open={eventInfoModalOpen}
+        handleClose={() => setEventInfoModalOpen(false)}
+        onDeleteEvent={onDeleteEvent}
+        currentEvent={currentEvent}
+      />
     </React.Fragment>
   );
 }

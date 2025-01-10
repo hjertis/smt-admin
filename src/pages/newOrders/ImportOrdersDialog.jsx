@@ -46,6 +46,7 @@ const ImportOrdersDialog = (props) => {
             ),
             status: result.Status,
             notes: result.Notes || "", // Only update notes if it's a new document
+            state: result.State,
             updated: Timestamp.fromDate(new Date()),
           });
         } else {
