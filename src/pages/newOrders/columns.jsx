@@ -3,6 +3,8 @@ import { Edit, Print } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import EditNewOrders from "./EditNewOrders";
 import dayjs from "dayjs";
+import PrintOrder from "./PrintOrder";
+import { useReactToPrint } from "react-to-print";
 
 export const columns = [
   {
@@ -63,10 +65,18 @@ export const columns = [
     width: 50,
     flex: 0.3,
     align: "center",
-    renderCell: (params) => (
-      <IconButton>
-        <Print />
-      </IconButton>
-    ),
+
+    renderCell: (params) => {
+      const contentRef = React.useRef();
+      const handlePrint = useReactToPrint({ contentRef });
+      return (
+        <>
+          <IconButton onClick={() => handlePrint()}>
+            <Print />
+          </IconButton>
+          <PrintOrder ref={contentRef} order={params.row} />
+        </>
+      );
+    },
   },
 ];

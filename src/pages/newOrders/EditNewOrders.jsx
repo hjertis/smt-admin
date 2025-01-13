@@ -25,6 +25,7 @@ export default function EditNewOrders(props) {
   const orderStartRef = React.useRef();
   const orderEndRef = React.useRef();
   const orderStatusRef = React.useRef();
+  const orderStateRef = React.useRef();
   const orderNotesRef = React.useRef();
   const [loading, setLoading] = React.useState(false);
   const editOrderFormRef = React.useRef();
@@ -55,8 +56,9 @@ export default function EditNewOrders(props) {
           dayjs(orderEndRef.current.value, "YYYY-MM-DD").toDate()
         ),
         status: orderStatusRef.current.value,
+        state: orderStateRef.current.value,
         notes: orderNotesRef.current.value,
-        updated: Date.now().toString(),
+        updated: Timestamp.fromDate(new Date()),
       });
       toast.success("Order successfully updated");
     } catch (err) {
@@ -74,8 +76,7 @@ export default function EditNewOrders(props) {
       open={props.open}
       onClose={props.toggleClose}
       maxWidth="md"
-      fullWidth
-    >
+      fullWidth>
       <ToastContainer />
       <DialogTitle>Edit order</DialogTitle>
       <DialogContent sx={{ display: "flex", flexDirection: "column" }}>
@@ -156,12 +157,25 @@ export default function EditNewOrders(props) {
               label="Status"
               disabled={loading}
               defaultValue={props.order.status}
-              inputRef={orderStatusRef}
-            >
+              inputRef={orderStatusRef}>
               <MenuItem value={"Finished"}>Finished</MenuItem>
               <MenuItem value={"Started"}>Started</MenuItem>
               <MenuItem value={"Released"}>Released</MenuItem>
               <MenuItem value={"Firm Planned"}>Firm Planned</MenuItem>
+            </TextField>
+            <TextField
+              required
+              select
+              fullWidth
+              id="state"
+              label="State"
+              disabled={loading}
+              defaultValue={props.order.state}
+              inputRef={orderStateRef}>
+              <MenuItem value={"SMT"}>SMT</MenuItem>
+              <MenuItem value={"THT"}>THT</MenuItem>
+              <MenuItem value={"TEST"}>TEST</MenuItem>
+              <MenuItem value={"CUT"}>CUT</MenuItem>
             </TextField>
           </Stack>
         </form>
@@ -171,8 +185,7 @@ export default function EditNewOrders(props) {
           <Button
             type="submit"
             onClick={handleNewOrderSubmit}
-            disabled={loading}
-          >
+            disabled={loading}>
             Save
           </Button>
           <Button onClick={handleNewOrderCancel}>Cancel</Button>

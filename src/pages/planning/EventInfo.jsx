@@ -1,24 +1,167 @@
 import {
+  Button,
+  ButtonGroup,
   Dialog,
+  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
+  TextField,
+  Typography,
 } from "@mui/material";
+import { doc, getDoc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
 import React from "react";
+import { db } from "../../firebase-config";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import dayjs from "dayjs";
 
-export default function EditEvent(
-  props,
-  open,
-  handleClose,
-  currentEvent,
-  onDeleteEvent
-) {
+export default function EditEvent(props) {
+  const data = props.currentEvent;
+  const [loading, setLoading] = React.useState(false);
+  const partNoRef = React.useRef();
+  const orderNoRef = React.useRef();
+  const descriptionRef = React.useRef();
+  const quantityRef = React.useRef();
+  const stateRef = React.useRef();
+  const statusRef = React.useRef();
+  const startDateRef = React.useRef();
+  const endDateRef = React.useRef();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const docRef = await updateDoc(doc(db, "newOrders", data.id), {
+        orderNo: orderNoRef.current.value,
+        partNo: partNoRef.current.value,
+        description: descriptionRef.current.value,
+        quantity: quantityRef.current.value,
+        state: stateRef.current.value,
+        status: statusRef.current.value,
+        start: Timestamp.fromDate(dayjs(startDateRef.current.value).toDate()),
+        end: Timestamp.fromDate(dayjs(endDateRef.current.value).toDate()),
+        updated: Timestamp.fromDate(new Date()),
+      });
+      toast.success("Orders successfully updated");
+    } catch (err) {
+      toast.error("Error creating order" + err.message);
+      console.log(err.message);
+    } finally {
+      setLoading(false);
+      props.handleClose();
+    }
+  };
+
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-      <DialogTitle>Event Information</DialogTitle>
+    <Dialog
+      open={props.open}
+      onClose={props.handleClose}
+      maxWidth="md"
+      fullWidth>
+      <ToastContainer />
+      <DialogTitle>{data && data.title}</DialogTitle>
       <DialogContent>
-        <DialogContentText>text</DialogContentText>
+        {data && (
+          <>
+            <TextField
+              id="orderNo"
+              label="Order No"
+              variant="outlined"
+              defaultValue={data.orderNo}
+              fullWidth
+              inputRef={orderNoRef}
+              disabled={loading}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              id="partNo"
+              label="Part No"
+              variant="outlined"
+              defaultValue={data.partNo}
+              fullWidth
+              inputRef={partNoRef}
+              disabled={loading}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              id="description"
+              label="Description"
+              variant="outlined"
+              defaultValue={data.description}
+              fullWidth
+              inputRef={descriptionRef}
+              disabled={loading}
+              multiline
+              rows={2}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              id="quantity"
+              label="Quantity"
+              variant="outlined"
+              defaultValue={data.quantity}
+              fullWidth
+              inputRef={quantityRef}
+              disabled={loading}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              id="state"
+              label="State"
+              variant="outlined"
+              defaultValue={data.state}
+              fullWidth
+              inputRef={stateRef}
+              disabled={loading}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              id="status"
+              label="Status"
+              variant="outlined"
+              defaultValue={data.status}
+              fullWidth
+              inputRef={statusRef}
+              disabled={loading}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              id="start"
+              label="Start"
+              variant="outlined"
+              defaultValue={data.start.toISOString().slice(0, 10)}
+              disabled
+              fullWidth
+              inputRef={startDateRef}
+              sx={{ mt: 2 }}
+            />
+            <TextField
+              id="end"
+              label="End"
+              variant="outlined"
+              defaultValue={data.end.toISOString().slice(0, 10)}
+              disabled
+              fullWidth
+              inputRef={endDateRef}
+              sx={{ mt: 2 }}
+            />
+            <Typography variant="body2" sx={{ mt: 2 }}>
+              Last updated: {data.updated.toISOString().slice(0, 10)}
+            </Typography>
+          </>
+        )}
       </DialogContent>
+      <DialogActions>
+        <ButtonGroup variant="contained">
+          <Button color="success" onClick={handleSubmit}>
+            Update
+          </Button>
+          <Button color="error" onClick={props.handleClose}>
+            Close
+          </Button>
+        </ButtonGroup>
+      </DialogActions>
     </Dialog>
   );
 }

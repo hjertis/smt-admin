@@ -21,15 +21,16 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
     setEvents(
       filteredDocuments.map((document) => ({
         title: document.orderNumber + " - " + document.description,
+        orderNo: document.orderNumber,
+        partNo: document.partNo,
+        description: document.description,
+        quantity: document.quantity,
+        state: document.state,
         start: document.start.toDate(),
         end: document.end.toDate(),
         allDay: true,
         id: document.id,
         status: document.status,
-        state: document.state,
-        description: document.description,
-        partNo: document.partNo,
-        quantity: document.quantity,
         updated: document.updated.toDate(),
       }))
     );
@@ -102,21 +103,6 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
 
   const eventPropGetter = (event) => {
     let backgroundColor;
-    /*     switch (event.status) {
-      case "Finished":
-        backgroundColor = "#00ff00";
-        break;
-      case "Firm Planned":
-        backgroundColor = "#5539CC";
-        break;
-      case "Released":
-        backgroundColor = "#2C3539";
-        break;
-      case "Started":
-        backgroundColor = "#1aa260";
-      default:
-        backgroundColor = "#ffffff";
-    } */
     switch (event.state) {
       case "SMT":
         backgroundColor = "#FF0000";
@@ -124,8 +110,14 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
       case "THT":
         backgroundColor = "#0000FF";
         break;
+      case "TEST":
+        backgroundColor = "#006600";
+        break;
+      case "CUT":
+        backgroundColor = "#ff9900";
+        break;
       default:
-        backgroundColor = "#00ff00";
+        backgroundColor = "#2f9917";
     }
     return { style: { backgroundColor } };
   };
@@ -181,7 +173,7 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
           localizer={localizer}
           onEventDrop={handleEventDrop}
           onEventResize={handleEventResize}
-          onSelectEvent={handleSelectEvent}
+          onDoubleClickEvent={handleSelectEvent}
           /* onSelectSlot={handleSelectSlot} */
           startAccessor={"start"}
           endAccessor={"end"}
