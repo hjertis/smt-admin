@@ -5,7 +5,6 @@ import AddProduct from "./products/AddProduct";
 import ImportProducts from "./products/ImportProducts";
 import useFirebase from "../hooks/useFirebase";
 import { columns } from "./products/columns";
-import EditProductDialog from "./products/EditProductDialog";
 
 const Products = () => {
   const [openAddProduct, setOpenAddProduct] = React.useState(false);

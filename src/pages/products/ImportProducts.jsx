@@ -31,11 +31,15 @@ export default function ImportProducts(props) {
     setLoading(true);
     try {
       const promises = results.map(async (result) => {
-        const docRef = doc(db, "products", result.No);
+        const docRef = doc(
+          db,
+          "products",
+          result.SourceNo || result.RoutingNo || result.No
+        );
         const docSnap = await getDoc(docRef);
         if (!docSnap.exists()) {
           await setDoc(docRef, {
-            partNo: result.RoutingNo,
+            partNo: result.RoutingNo || result.SourceNo || result.No,
             description: result.Description,
             status: result.ProductLifeCycleCode,
             updated: Timestamp.fromDate(new Date()),

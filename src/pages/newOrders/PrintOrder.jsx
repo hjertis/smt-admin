@@ -1,41 +1,45 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
+import dayjs from "dayjs";
 
 const PrintOrder = React.forwardRef((props, ref) => {
   return (
     <div style={{ display: "none", "@media print": { display: "block" } }}>
-      <Box
-        ref={ref}
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          margin: 2,
-          alignItems: "center",
-          justifyContent: "center",
-          position: "relative",
-        }}>
-        <Box
-          sx={{
-            border: "1px solid black",
-            padding: 2,
-            position: "absolute",
-            top: 10,
-            left: 10,
-          }}>
-          <Typography variant="h6">
-            {props.order.orderNumber} - {props.order.description}
-          </Typography>
-        </Box>
-        <Box
-          sx={{
-            border: "1px solid black",
-            padding: 2,
-            position: "absolute",
-            top: 75,
-            left: 10,
-          }}>
-          <Typography variant="body2">{props.order.quantity}</Typography>
-        </Box>
+      <Box ref={ref} sx={{ m: 5 }}>
+        <Typography variant="h5" sx={{ border: "1px solid black", p: 1, m: 1 }}>
+          {props.order.partNo} - {props.order.description}
+        </Typography>
+        <Typography variant="h6" sx={{ border: "1px solid black", p: 1, m: 1 }}>
+          {props.order.orderNumber}
+        </Typography>
+        <Typography sx={{ border: "1px solid black", p: 1, m: 1 }}>
+          Antal: {props.order.quantity}
+        </Typography>
+        <Typography sx={{ border: "1px solid black", p: 1, m: 1 }}>
+          Start/Stop:
+          <br />
+          {dayjs(props.order.start.toDate()).format("YYYY-MM-DD")} -{" "}
+          {dayjs(props.order.end.toDate()).format("YYYY-MM-DD")}
+        </Typography>
+        <Typography sx={{ border: "1px solid black", p: 1, m: 1 }}>
+          Status: {props.order.status}
+        </Typography>
+        <Typography sx={{ border: "1px solid black", p: 1, m: 1 }}>
+          State: {props.order.state}
+        </Typography>
+        <Typography sx={{ border: "1px solid black", p: 1, m: 1 }}>
+          Sidst opdateret:{" "}
+          {dayjs(props.order.updated.toDate()).format("YYYY-MM-DD")}
+        </Typography>
+        <Typography
+          sx={{ border: "1px solid black", p: 1, m: 1, height: "200px" }}>
+          Noter: <br />
+          {props.order.notes}
+        </Typography>
+        <Typography
+          sx={{ border: "1px solid black", p: 1, m: 1, height: "200px" }}>
+          Delleveringer:
+        </Typography>
       </Box>
     </div>
   );
