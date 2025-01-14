@@ -17,7 +17,8 @@ import {
 } from "@mui/material";
 import { doc, Timestamp, updateDoc } from "firebase/firestore";
 import React from "react";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { allTasks } from "../../data/data";
 import { db } from "../../firebase-config";
 
@@ -26,6 +27,8 @@ export default function EditProductDialog(props) {
   const [tasks, setTasks] = React.useState(props.tasks || []);
   const productFormRef = React.useRef();
   const partNoRef = React.useRef();
+  const descriptionRef = React.useRef();
+  const statusRef = React.useRef();
 
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 8;
@@ -46,6 +49,12 @@ export default function EditProductDialog(props) {
       // On autofill we get a stringified value.
       typeof value === "string" ? value.split(",") : value
     );
+    console.log(tasks);
+  };
+
+  const handleReset = () => {
+    productFormRef.current.reset();
+    setTasks([]);
   };
 
   const handleSubmit = async (e) => {
@@ -54,17 +63,20 @@ export default function EditProductDialog(props) {
     try {
       const docRef = await updateDoc(doc(db, "products", props.product.id), {
         partNo: partNoRef.current.value,
-        description: productFormRef.current[1].value,
-        status: productFormRef.current[2].value,
-        processes: productFormRef.current[3].value,
+        description: descriptionRef.current.value,
+        status: statusRef.current.value,
+        processes: tasks,
         updated: Timestamp.fromDate(new Date()),
       });
       toast.success("Product successfully updated");
     } catch (err) {
       toast.error("Error creating product" + err.message);
+    } finally {
+      toast.success("Product successfully updated");
+      setLoading(false);
+      handleReset();
+      props.toggleClose();
     }
-    setLoading(false);
-    props.toggleClose();
   };
 
   return (
@@ -98,6 +110,7 @@ export default function EditProductDialog(props) {
               variant="outlined"
               fullWidth
               required
+              inputRef={descriptionRef}
               defaultValue={props.product.description}
             />
             <TextField
@@ -106,6 +119,7 @@ export default function EditProductDialog(props) {
               variant="outlined"
               fullWidth
               required
+              inputRef={statusRef}
               defaultValue={props.product.status}
             />
             <FormControl sx={{ width: "100%" }}>
@@ -118,11 +132,11 @@ export default function EditProductDialog(props) {
                 onChange={handleChange}
                 MenuProps={MenuProps}
                 renderValue={(selected) => selected.join(", ")}
-                value={tasks || []}>
+                value={props.product.processes || tasks || []}>
                 {allTasks.map((task, index) => {
                   return (
                     <MenuItem key={index} value={task}>
-                      <Checkbox checked={tasks.indexOf(task) > -1} />
+                      <Checkbox checked={tasks.includes(task)} />
                       <ListItemText primary={task} />
                     </MenuItem>
                   );

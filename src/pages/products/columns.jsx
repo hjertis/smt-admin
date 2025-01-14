@@ -24,6 +24,12 @@ export const columns = [
     flex: 1,
   },
   {
+    field: "processes",
+    headerName: "Processes",
+    width: 0,
+    flex: 0,
+  },
+  {
     field: "updated",
     headerName: "Updated",
     width: 150,

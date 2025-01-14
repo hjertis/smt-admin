@@ -31,6 +31,12 @@ const PrintOrder = React.forwardRef((props, ref) => {
           Sidst opdateret:{" "}
           {dayjs(props.order.updated.toDate()).format("YYYY-MM-DD")}
         </Typography>
+        <Typography sx={{ border: "1px solid black", p: 1, m: 1 }}>
+          Processer:{" "}
+          {Array.isArray(props.order.processes)
+            ? props.order.processes.join(", ")
+            : props.order.processes}
+        </Typography>
         <Typography
           sx={{ border: "1px solid black", p: 1, m: 1, height: "200px" }}>
           Noter: <br />

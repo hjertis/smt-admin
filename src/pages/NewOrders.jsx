@@ -10,6 +10,16 @@ const NewOrders = () => {
   const [openImportOrders, setOpenImportOrders] = React.useState(false);
   const [openManualAddOrder, setOpenManualAddOrder] = React.useState(false);
   const { data, error, loading } = useFirebase("newOrders");
+  const {
+    data: products,
+    error: productError,
+    loading: productLoading,
+  } = useFirebase("products");
+
+  const mergedData = data.map((order) => {
+    const product = products.find((product) => order.partNo === product.partNo);
+    return { ...product, ...order };
+  });
 
   const toggleImportOrders = () => {
     setOpenImportOrders(!openImportOrders);
@@ -30,7 +40,7 @@ const NewOrders = () => {
         </Grid>
         <Grid item>
           <DataGrid
-            rows={data}
+            rows={mergedData}
             columns={columns}
             sx={{ width: "75vw", minHeight: "300px" }}
             slots={{ toolbar: GridToolbar }}
