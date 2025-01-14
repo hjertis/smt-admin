@@ -9,6 +9,7 @@ import {
   InputLabel,
   ListItemText,
   MenuItem,
+  OutlinedInput,
   Select,
   Stack,
   TextField,
@@ -22,7 +23,7 @@ import { db } from "../../firebase-config";
 
 export default function EditProductDialog(props) {
   const [loading, setLoading] = React.useState(false);
-  const [tasks, setTasks] = React.useState([]);
+  const [tasks, setTasks] = React.useState(props.tasks || []);
   const productFormRef = React.useRef();
   const partNoRef = React.useRef();
 
