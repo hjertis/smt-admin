@@ -5,8 +5,11 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
   ListItemText,
   MenuItem,
+  OutlinedInput,
   Select,
   Stack,
   TextField,
@@ -20,13 +23,24 @@ import { db } from "../../firebase-config";
 
 export default function EditProductDialog(props) {
   const [loading, setLoading] = React.useState(false);
-  const [tasks, setTasks] = React.useState([]);
+  const [tasks, setTasks] = React.useState(props.tasks || []);
   const productFormRef = React.useRef();
   const partNoRef = React.useRef();
 
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
   const handleChange = (event) => {
     const value = event;
-    setTasks(typeof value === "string" ? value.split(",") : value);
+    setTasks(event.target.value);
   };
 
   const handleSubmit = async (e) => {
@@ -89,22 +103,28 @@ export default function EditProductDialog(props) {
               required
               defaultValue={props.product.status}
             />
-            <Select
-              label="Procceses"
-              id="product-processes"
-              multiple
-              fullWidth
-              onChange={handleChange}
-              value={props.product.procsses || []}>
-              {allTasks.map((task, index) => {
-                return (
-                  <MenuItem key={index} value={task}>
-                    <Checkbox checked={tasks.includes(task)} />
-                    <ListItemText primary={task} />
-                  </MenuItem>
-                );
-              })}
-            </Select>
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel id="product-processes">Processes</InputLabel>
+              <Select
+                label="Procceses"
+                id="product-processes"
+                multiple
+                fullWidth
+                onChange={handleChange}
+                input={<OutlinedInput label="Tag" />}
+                renderValue={(selected) => selected.join(", ")}
+                MenuProps={MenuProps}
+                value={props.product.processes || []}>
+                {allTasks.map((task, index) => {
+                  return (
+                    <MenuItem key={index} value={task}>
+                      <Checkbox checked={tasks.indexOf(task) > -1} />
+                      <ListItemText primary={task} />
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
             <Typography
               variant="body2"
               color="text.secondary"
