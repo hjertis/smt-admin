@@ -5,6 +5,8 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
   ListItemText,
   MenuItem,
   Select,
@@ -24,9 +26,25 @@ export default function EditProductDialog(props) {
   const productFormRef = React.useRef();
   const partNoRef = React.useRef();
 
+  const ITEM_HEIGHT = 48;
+  const ITEM_PADDING_TOP = 8;
+  const MenuProps = {
+    PaperProps: {
+      style: {
+        maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+        width: 250,
+      },
+    },
+  };
+
   const handleChange = (event) => {
-    const value = event;
-    setTasks(typeof value === "string" ? value.split(",") : value);
+    const {
+      target: { value },
+    } = event;
+    setTasks(
+      // On autofill we get a stringified value.
+      typeof value === "string" ? value.split(",") : value
+    );
   };
 
   const handleSubmit = async (e) => {
@@ -89,22 +107,27 @@ export default function EditProductDialog(props) {
               required
               defaultValue={props.product.status}
             />
-            <Select
-              label="Procceses"
-              id="product-processes"
-              multiple
-              fullWidth
-              onChange={handleChange}
-              value={props.product.procsses || []}>
-              {allTasks.map((task, index) => {
-                return (
-                  <MenuItem key={index} value={task}>
-                    <Checkbox checked={tasks.includes(task)} />
-                    <ListItemText primary={task} />
-                  </MenuItem>
-                );
-              })}
-            </Select>
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel>Processes</InputLabel>
+              <Select
+                label="Procceses"
+                id="product-processes"
+                multiple
+                fullWidth
+                onChange={handleChange}
+                MenuProps={MenuProps}
+                renderValue={(selected) => selected.join(", ")}
+                value={tasks || []}>
+                {allTasks.map((task, index) => {
+                  return (
+                    <MenuItem key={index} value={task}>
+                      <Checkbox checked={tasks.indexOf(task) > -1} />
+                      <ListItemText primary={task} />
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
             <Typography
               variant="body2"
               color="text.secondary"
