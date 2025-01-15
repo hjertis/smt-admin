@@ -11,6 +11,7 @@ import {
   ShowChart,
   ViewList,
   Menu as MenuIcon,
+  ProductionQuantityLimits,
 } from "@mui/icons-material";
 import {
   AppBar,
@@ -76,8 +77,7 @@ const Header = (props) => {
                 color="inherit"
                 variant="h5"
                 component="h1"
-                textAlign="center"
-              >
+                textAlign="center">
                 {props.title}
               </Typography>
             </Grid>
@@ -93,8 +93,7 @@ const Header = (props) => {
         component="div"
         position="static"
         elevation={0}
-        sx={{ zIndex: 0, boxShadow: "0px 5px 5px grey" }}
-      >
+        sx={{ zIndex: 0, boxShadow: "0px 5px 5px grey" }}>
         <Toolbar>
           <Grid container spacing={1} textAlign="center">
             <Grid item xs>
@@ -103,6 +102,9 @@ const Header = (props) => {
               </IconButton>
               <IconButton color="inherit" href="/newOrders">
                 <ViewList />
+              </IconButton>
+              <IconButton color="inherit" href="/products">
+                <ProductionQuantityLimits />
               </IconButton>
               <IconButton color="inherit" href="/planning">
                 <CalendarIcon />

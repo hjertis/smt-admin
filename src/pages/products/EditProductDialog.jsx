@@ -9,12 +9,12 @@ import {
   InputLabel,
   ListItemText,
   MenuItem,
-  OutlinedInput,
   Select,
   Stack,
   TextField,
   Typography,
 } from "@mui/material";
+import PropTypes from "prop-types";
 import { doc, Timestamp, updateDoc } from "firebase/firestore";
 import React from "react";
 import { toast, ToastContainer } from "react-toastify";
@@ -61,6 +61,7 @@ export default function EditProductDialog(props) {
     e.preventDefault();
     setLoading(true);
     try {
+      // eslint-disable-next-line no-unused-vars
       const docRef = await updateDoc(doc(db, "products", props.product.id), {
         partNo: partNoRef.current.value,
         description: descriptionRef.current.value,
@@ -101,6 +102,7 @@ export default function EditProductDialog(props) {
               variant="outlined"
               fullWidth
               required
+              disabled={loading}
               defaultValue={props.product.partNo}
               inputRef={partNoRef}
             />
@@ -110,6 +112,7 @@ export default function EditProductDialog(props) {
               variant="outlined"
               fullWidth
               required
+              disabled={loading}
               inputRef={descriptionRef}
               defaultValue={props.product.description}
             />
@@ -119,6 +122,7 @@ export default function EditProductDialog(props) {
               variant="outlined"
               fullWidth
               required
+              disabled={loading}
               inputRef={statusRef}
               defaultValue={props.product.status}
             />
@@ -129,10 +133,11 @@ export default function EditProductDialog(props) {
                 id="product-processes"
                 multiple
                 fullWidth
+                disabled={loading}
                 onChange={handleChange}
                 MenuProps={MenuProps}
                 renderValue={(selected) => selected.join(", ")}
-                value={props.product.processes || tasks || []}>
+                value={tasks || []}>
                 {allTasks.map((task, index) => {
                   return (
                     <MenuItem key={index} value={task}>
@@ -162,3 +167,10 @@ export default function EditProductDialog(props) {
     </Dialog>
   );
 }
+
+EditProductDialog.propTypes = {
+  open: PropTypes.bool,
+  toggleClose: PropTypes.func,
+  product: PropTypes.object,
+  tasks: PropTypes.array,
+};

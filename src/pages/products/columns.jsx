@@ -1,5 +1,5 @@
 import React from "react";
-import { Edit, Print } from "@mui/icons-material";
+import { Edit } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import dayjs from "dayjs";
 import EditProductDialog from "./EditProductDialog";
@@ -26,14 +26,14 @@ export const columns = [
   {
     field: "processes",
     headerName: "Processes",
-    width: 0,
-    flex: 0,
+    width: 300,
+    flex: 1.7,
   },
   {
     field: "updated",
     headerName: "Updated",
-    width: 150,
-    flex: 1,
+    width: 100,
+    flex: 0.75,
     renderCell: (params) => {
       return dayjs(params.row.updated.toDate()).format("DD-MM-YYYY");
     },
@@ -59,6 +59,7 @@ export const columns = [
             open={openEdit}
             toggleClose={handleOpenEdit}
             product={params.row}
+            tasks={params.row.processes}
           />
         </>
       );
