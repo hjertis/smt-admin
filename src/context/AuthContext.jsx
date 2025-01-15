@@ -9,9 +9,11 @@ import {
   updatePassword as updatePasswordFirebase,
   updateProfile as updateProfileFirebase,
 } from "firebase/auth";
+import PropTypes from "prop-types";
 
 export const AuthContext = React.createContext();
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   return useContext(AuthContext);
 }
@@ -73,3 +75,7 @@ export function AuthProvider({ children }) {
     </AuthContext.Provider>
   );
 }
+
+AuthProvider.propTypes = {
+  children: PropTypes.any,
+};

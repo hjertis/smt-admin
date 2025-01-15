@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import {
   Button,
@@ -7,6 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 import { SparkLineChart } from "@mui/x-charts";
+import PropTypes from "prop-types";
 
 export default function Cards(props) {
   return (
@@ -40,3 +42,11 @@ export default function Cards(props) {
     </Card>
   );
 }
+
+Cards.propTypes = {
+  size: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  sparkline: PropTypes.array,
+  plotType: PropTypes.string,
+};

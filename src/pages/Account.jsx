@@ -3,19 +3,17 @@ import { LockPerson, Refresh } from "@mui/icons-material";
 import {
   Avatar,
   Box,
-  Button,
   Grid,
   Paper,
   Stack,
   TextField,
   Typography,
-  Link,
   IconButton,
 } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { useNavigate } from "react-router-dom";
 
-export default function Account(props) {
+export default function Account() {
   const displayNameRef = React.useRef();
   const emailRef = React.useRef();
   const passwordRef = React.useRef();

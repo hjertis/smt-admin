@@ -1,10 +1,11 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import useFirebase from "../../hooks/useFirebase";
 
-export default function EmployeeList(props) {
+export default function EmployeeList() {
   const employees = [];
-  const { data, loading, error } = useFirebase("employees");
+  const { data } = useFirebase("employees");
 
   return (
     <Box textAlign="center">
@@ -16,8 +17,8 @@ export default function EmployeeList(props) {
               employees.push(document);
             })}
             <Box>
-              {employees.map((employee) => (
-                <Box>
+              {employees.map((employee, index) => (
+                <Box key={index}>
                   {employee.firstName} {employee.lastName} -{" "}
                   {employee.timeResource} minutes
                 </Box>

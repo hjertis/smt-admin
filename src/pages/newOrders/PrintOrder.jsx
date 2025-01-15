@@ -1,7 +1,9 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
 
+// eslint-disable-next-line react/display-name
 const PrintOrder = React.forwardRef((props, ref) => {
   return (
     <div style={{ display: "none", "@media print": { display: "block" } }}>
@@ -50,5 +52,9 @@ const PrintOrder = React.forwardRef((props, ref) => {
     </div>
   );
 });
+
+PrintOrder.propTypes = {
+  order: PropTypes.object,
+};
 
 export default PrintOrder;

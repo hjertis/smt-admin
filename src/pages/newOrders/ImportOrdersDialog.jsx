@@ -17,6 +17,7 @@ import { setDoc, doc, Timestamp, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import PropTypes from "prop-types";
 
 const ImportOrdersDialog = (props) => {
   const [loading, setLoading] = React.useState(false);
@@ -90,31 +91,6 @@ const ImportOrdersDialog = (props) => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const styles = {
-    csvReader: {
-      display: "flex",
-      flexDirection: "row",
-      marginBottom: 10,
-    },
-    browseFile: {
-      width: "20%",
-    },
-    acceptedFile: {
-      border: "1px solid #ccc",
-      height: 45,
-      lineHeight: 2.5,
-      paddingLeft: 10,
-      width: "80%",
-    },
-    remove: {
-      borderRadius: 0,
-      padding: "0 20px",
-    },
-    progressBarBackgroundColor: {
-      backgroundColor: "red",
-    },
   };
 
   const { CSVReader } = useCSVReader();
@@ -209,3 +185,9 @@ const ImportOrdersDialog = (props) => {
 };
 
 export default ImportOrdersDialog;
+
+ImportOrdersDialog.propTypes = {
+  addOrder: PropTypes.bool,
+  toggleImportOrders: PropTypes.func,
+  orders: PropTypes.array,
+};

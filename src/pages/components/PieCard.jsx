@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import { PieChart } from "@mui/x-charts";
 import {
@@ -7,6 +8,7 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
+import PropTypes from "prop-types";
 
 export default function PieCard(props) {
   return (
@@ -47,3 +49,10 @@ export default function PieCard(props) {
     </Card>
   );
 }
+
+PieCard.propTypes = {
+  size: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
+  pie: PropTypes.array,
+};

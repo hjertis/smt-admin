@@ -9,7 +9,7 @@ import { columns } from "./products/columns";
 const Products = () => {
   const [openAddProduct, setOpenAddProduct] = React.useState(false);
   const [openImportProducts, setOpenImportProducts] = React.useState(false);
-  const { data, error, loading } = useFirebase("products");
+  const { data } = useFirebase("products");
 
   const toggleAddProduct = () => {
     setOpenAddProduct(!openAddProduct);

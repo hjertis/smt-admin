@@ -17,7 +17,7 @@ import { useAuth } from "../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function SignIn(props) {
+export default function SignIn() {
   const emailRef = React.useRef();
   const passwordRef = React.useRef();
   const { login } = useAuth();
@@ -85,6 +85,7 @@ export default function SignIn(props) {
               autoComplete="email"
               autoFocus
               inputRef={emailRef}
+              disabled={loading}
             />
             <TextField
               margin="normal"
@@ -96,6 +97,7 @@ export default function SignIn(props) {
               id="password"
               autoComplete="current-password"
               inputRef={passwordRef}
+              disabled={loading}
             />
             <FormControlLabel
               control={<Checkbox value="remember" color="primary" />}

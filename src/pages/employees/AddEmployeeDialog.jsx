@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Button,
   ButtonGroup,
@@ -10,8 +11,8 @@ import {
   TextField,
 } from "@mui/material";
 import { doc, setDoc } from "firebase/firestore";
-import React from "react";
 import { db } from "../../firebase-config";
+import PropTypes from "prop-types";
 
 export default function AddEmployeeDialog(props) {
   const addEmployeeFormRef = React.useRef();
@@ -25,6 +26,7 @@ export default function AddEmployeeDialog(props) {
     e.preventDefault();
     setLoading(true);
     try {
+      // eslint-disable-next-line no-unused-vars
       const docRef = await setDoc(
         doc(
           db,
@@ -120,3 +122,8 @@ export default function AddEmployeeDialog(props) {
     </Dialog>
   );
 }
+
+AddEmployeeDialog.propTypes = {
+  addEmployee: PropTypes.bool,
+  toggleAddEmployee: PropTypes.func,
+};

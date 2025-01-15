@@ -45,6 +45,7 @@ export const columns = [
     flex: 0.3,
     align: "center",
     renderCell: (params) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
       const [openEdit, setOpenEdit] = React.useState(false);
 
       const handleOpenEdit = () => {

@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Calendar, Views, DateLocalizer } from "react-big-calendar";
+import { Calendar, DateLocalizer } from "react-big-calendar";
 import withDragAndDrop from "./dnd/dragAndDrop/withDragAndDrop";
 import { doc, Timestamp, updateDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
@@ -196,4 +196,6 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
 
 DragAndDropCalendarPage.propTypes = {
   localizer: PropTypes.instanceOf(DateLocalizer),
+  events: PropTypes.array,
+  documents: PropTypes.array,
 };

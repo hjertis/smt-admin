@@ -15,8 +15,10 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { db } from "../../firebase-config";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
 
 export default function EditNewOrders(props) {
+  const [loading, setLoading] = React.useState(false);
   const newOrderFormRef = React.useRef();
   const orderNumberRef = React.useRef();
   const orderDescriptionRef = React.useRef();
@@ -27,8 +29,6 @@ export default function EditNewOrders(props) {
   const orderStatusRef = React.useRef();
   const orderStateRef = React.useRef();
   const orderNotesRef = React.useRef();
-  const [loading, setLoading] = React.useState(false);
-  const editOrderFormRef = React.useRef();
 
   const handleNewOrderFormReset = () => {
     newOrderFormRef.current.reset();
@@ -44,6 +44,7 @@ export default function EditNewOrders(props) {
     e.preventDefault();
     setLoading(true);
     try {
+      // eslint-disable-next-line no-unused-vars
       const docRef = await updateDoc(doc(db, "newOrders", props.order.id), {
         orderNumber: orderNumberRef.current.value,
         description: orderDescriptionRef.current.value,
@@ -195,3 +196,9 @@ export default function EditNewOrders(props) {
     </Dialog>
   );
 }
+
+EditNewOrders.propTypes = {
+  open: PropTypes.bool,
+  toggleClose: PropTypes.func,
+  order: PropTypes.object,
+};

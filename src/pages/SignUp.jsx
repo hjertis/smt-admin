@@ -4,8 +4,6 @@ import {
   Avatar,
   Box,
   Button,
-  Checkbox,
-  FormControlLabel,
   Grid,
   Paper,
   Stack,
@@ -18,7 +16,7 @@ import { useAuth } from "../context/AuthContext";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-export default function SignUp(props) {
+export default function SignUp() {
   const emailRef = React.useRef();
   const passwordRef = React.useRef();
   const passwordConfirmRef = React.useRef();

@@ -25,6 +25,7 @@ import {
 } from "@mui/material";
 import { useAuth } from "../context/AuthContext";
 import { CalendarIcon } from "@mui/x-date-pickers";
+import PropTypes from "prop-types";
 
 const Header = (props) => {
   const { logout } = useAuth();
@@ -125,6 +126,11 @@ const Header = (props) => {
       {renderMenu}
     </header>
   );
+};
+
+Header.propTypes = {
+  title: PropTypes.string,
+  toggleDrawer: PropTypes.func,
 };
 
 export default Header;

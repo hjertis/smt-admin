@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import { Box, Grid } from "@mui/material";
 import { momentLocalizer } from "react-big-calendar";
@@ -6,8 +7,8 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import DragAndDropCalendarPage from "./planning/DragAndDropCalendar.jsx";
 import useFirebase from "../hooks/useFirebase.jsx";
 
-export default function Planning(props) {
-  const { data, error, loading } = useFirebase("newOrders");
+export default function Planning() {
+  const { data } = useFirebase("newOrders");
 
   moment.updateLocale("da", {
     week: {

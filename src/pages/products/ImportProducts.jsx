@@ -14,10 +14,11 @@ import {
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCSVReader } from "react-papaparse";
-import { setDoc, doc, Timestamp, getDoc, updateDoc } from "firebase/firestore";
+import { setDoc, doc, Timestamp, getDoc } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import PropTypes from "prop-types";
 
 export default function ImportProducts(props) {
   const [loading, setLoading] = React.useState(false);
@@ -59,6 +60,7 @@ export default function ImportProducts(props) {
   const { CSVReader } = useCSVReader();
 
   React.useEffect(() => {
+    // eslint-disable-next-line no-unused-vars
     const intervalId = setInterval(() => {
       if (loading) {
         setProgress((prevProgress) => {
@@ -77,6 +79,7 @@ export default function ImportProducts(props) {
       fullWidth
       open={props.openImportProducts}
       onClose={props.toggleImportProducts}>
+      <ToastContainer />
       <DialogTitle>Import Products</DialogTitle>
       <DialogContent>
         <Stack
@@ -138,3 +141,8 @@ export default function ImportProducts(props) {
     </Dialog>
   );
 }
+
+ImportProducts.propTypes = {
+  openImportProducts: PropTypes.bool.isRequired,
+  toggleImportProducts: PropTypes.func.isRequired,
+};

@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
 import {
   Box,
@@ -18,6 +19,7 @@ import {
   MoneyOffCsredSharp,
   ProductionQuantityLimits,
 } from "@mui/icons-material";
+import PropTypes from "prop-types";
 
 const DrawerList = (props) => {
   return (
@@ -25,8 +27,7 @@ const DrawerList = (props) => {
       <Box
         sx={{ width: 250 }}
         role="persistent"
-        onClick={props.toggleDrawer(false)}
-      >
+        onClick={props.toggleDrawer(false)}>
         <List>
           <Link href="/products">
             <ListItem disablePadding>
@@ -93,6 +94,11 @@ const DrawerList = (props) => {
       </Box>
     </Drawer>
   );
+};
+
+DrawerList.propTypes = {
+  toggleDrawer: PropTypes.func,
+  open: PropTypes.bool,
 };
 
 export default DrawerList;

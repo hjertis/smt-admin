@@ -4,17 +4,17 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
-  DialogContentText,
   DialogTitle,
   TextField,
   Typography,
 } from "@mui/material";
-import { doc, getDoc, setDoc, Timestamp, updateDoc } from "firebase/firestore";
+import { doc, Timestamp, updateDoc } from "firebase/firestore";
 import React from "react";
 import { db } from "../../firebase-config";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dayjs from "dayjs";
+import PropTypes from "prop-types";
 
 export default function EditEvent(props) {
   const data = props.currentEvent;
@@ -32,6 +32,7 @@ export default function EditEvent(props) {
     e.preventDefault();
     setLoading(true);
     try {
+      // eslint-disable-next-line no-unused-vars
       const docRef = await updateDoc(doc(db, "newOrders", data.id), {
         orderNo: orderNoRef.current.value,
         partNo: partNoRef.current.value,
@@ -165,3 +166,9 @@ export default function EditEvent(props) {
     </Dialog>
   );
 }
+
+EditEvent.propTypes = {
+  open: PropTypes.bool,
+  handleClose: PropTypes.func,
+  currentEvent: PropTypes.object,
+};

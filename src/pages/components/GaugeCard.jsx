@@ -1,5 +1,6 @@
+// eslint-disable-next-line no-unused-vars
 import React from "react";
-import { Gauge, gaugeClasses } from "@mui/x-charts/Gauge";
+import { Gauge } from "@mui/x-charts/Gauge";
 import {
   Button,
   Card,
@@ -7,6 +8,7 @@ import {
   CardContent,
   Typography,
 } from "@mui/material";
+import PropTypes from "prop-types";
 
 export default function GaugeCard(props) {
   return (
@@ -43,3 +45,9 @@ export default function GaugeCard(props) {
     </Card>
   );
 }
+
+GaugeCard.propTypes = {
+  size: PropTypes.string,
+  title: PropTypes.string,
+  description: PropTypes.string,
+};
