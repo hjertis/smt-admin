@@ -12,6 +12,7 @@ import {
   ViewList,
   Menu as MenuIcon,
   ProductionQuantityLimits,
+  PunchClock,
 } from "@mui/icons-material";
 import {
   AppBar,
@@ -118,6 +119,9 @@ const Header = (props) => {
               </IconButton>
               <IconButton color="inherit" href="/tasks">
                 <ShowChart />
+              </IconButton>
+              <IconButton color="inherit" href="/clockIn">
+                <PunchClock />
               </IconButton>
             </Grid>
           </Grid>

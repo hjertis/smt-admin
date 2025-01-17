@@ -24,6 +24,7 @@ import NewOrders from "./pages/NewOrders";
 import Products from "./pages/Products";
 import PrivateRoute from "./context/PrivateRoute";
 import Planning from "./pages/Planning";
+import ClockIn from "./pages/ClockIn";
 import { FirebaseProvider } from "./context/FirebaseContext";
 
 function App() {
@@ -59,6 +60,7 @@ function App() {
                   <Route path="/newOrders" element={<NewOrders />} />
                   <Route path="/planning" element={<Planning />} />
                   <Route path="/products" element={<Products />} />
+                  <Route path="/clockIn" element={<ClockIn />} />
                   <Route
                     path="/account"
                     element={
