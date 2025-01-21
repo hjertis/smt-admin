@@ -8,15 +8,19 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./dnd/dragAndDrop/styles.scss";
 import EventInfo from "./EventInfo";
+import { TextField } from "@mui/material";
 
 const DragAndDropCalendar = withDragAndDrop(Calendar);
 
 export default function DragAndDropCalendarPage({ localizer, documents }) {
   const [events, setEvents] = React.useState();
+  const [filterState, setFilterState] = React.useState("");
 
   React.useEffect(() => {
     const filteredDocuments = documents.filter(
-      (document) => document.status !== "Finished"
+      (document) =>
+        document.status !== "Finished" &&
+        document.state.toLowerCase().includes(filterState.toLowerCase())
     );
     setEvents(
       filteredDocuments.map((document) => ({
@@ -34,7 +38,7 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
         updated: document.updated.toDate(),
       }))
     );
-  }, [documents]);
+  }, [documents, filterState]);
 
   const moveEvent = React.useCallback(
     ({ event, start, end, isAllDay: droppedOnAllDaySlot = false }) => {
@@ -163,10 +167,20 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
     handleClose();
   };
 
+  const handleFilterStateChange = (event) => {
+    setFilterState(event.target.value);
+  };
+
   return (
     <React.Fragment>
       <ToastContainer />
       <div>
+        <TextField
+          label="Filter by State"
+          value={filterState}
+          onChange={handleFilterStateChange}
+          sx={{ width: "400px", mb: 2 }}
+        />
         <DragAndDropCalendar
           defaultDate={defaultDate}
           events={events}
