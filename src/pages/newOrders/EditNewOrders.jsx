@@ -5,7 +5,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
   MenuItem,
+  Select,
   Stack,
   TextField,
 } from "@mui/material";
@@ -16,6 +19,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { db } from "../../firebase-config";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
+import { allStates } from "../../data/data";
 
 export default function EditNewOrders(props) {
   const [loading, setLoading] = React.useState(false);
@@ -164,20 +168,23 @@ export default function EditNewOrders(props) {
               <MenuItem value={"Released"}>Released</MenuItem>
               <MenuItem value={"Firm Planned"}>Firm Planned</MenuItem>
             </TextField>
-            <TextField
-              required
-              select
-              fullWidth
-              id="state"
-              label="State"
-              disabled={loading}
-              defaultValue={props.order.state}
-              inputRef={orderStateRef}>
-              <MenuItem value={"SMT"}>SMT</MenuItem>
-              <MenuItem value={"THT"}>THT</MenuItem>
-              <MenuItem value={"TEST"}>TEST</MenuItem>
-              <MenuItem value={"CUT"}>CUT</MenuItem>
-            </TextField>
+            <FormControl sx={{ width: "100%" }}>
+              <InputLabel>State:</InputLabel>
+              <Select
+                required
+                fullWidth
+                id="state"
+                label="State"
+                disabled={loading}
+                defaultValue={props.order.state}
+                inputRef={orderStateRef}>
+                {allStates.map((state) => (
+                  <MenuItem key={state} value={state}>
+                    {state}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Stack>
         </form>
       </DialogContent>

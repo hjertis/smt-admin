@@ -24,7 +24,13 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
     );
     setEvents(
       filteredDocuments.map((document) => ({
-        title: document.orderNumber + " - " + document.description,
+        title:
+          document.orderNumber +
+          " - " +
+          document.description +
+          " - " +
+          document.quantity +
+          "stk",
         orderNo: document.orderNumber,
         partNo: document.partNo,
         description: document.description,
@@ -107,12 +113,18 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
 
   const eventPropGetter = (event) => {
     let backgroundColor;
+    let fontColor;
     switch (event.state) {
       case "SMT":
-        backgroundColor = "#FF0000";
+        backgroundColor = "#00cc00";
+        fontColor = "#000000";
         break;
       case "THT":
-        backgroundColor = "#0000FF";
+        backgroundColor = "#3366cc";
+        break;
+      case "HMT":
+        backgroundColor = "#0099cc";
+        fontColor = "#000000";
         break;
       case "TEST":
         backgroundColor = "#006600";
@@ -120,14 +132,31 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
       case "CUT":
         backgroundColor = "#ff9900";
         break;
+      case "WASH":
+        backgroundColor = "#FF00FF";
+        break;
+      case "PACK":
+        backgroundColor = "#ff0066";
+        break;
+      case "DONE":
+        backgroundColor = "#00ff00";
+        break;
+      case "REP":
+        backgroundColor = "#ff9900";
+        break;
+      case "PROT":
+        backgroundColor = "#0099ff";
+        break;
       default:
         backgroundColor = "#2f9917";
+        fontColor = "#ffffff";
     }
-    return { style: { backgroundColor } };
+    return { style: { backgroundColor, color: fontColor } };
   };
 
   const [currentEvent, setCurrentEvent] = React.useState(null);
   const [eventInfoModalOpen, setEventInfoModalOpen] = React.useState(false);
+  // eslint-disable-next-line no-unused-vars
   const [openSlot, setOpenSlot] = React.useState(false);
 
   const handleSelectEvent = (event) => {
@@ -135,36 +164,9 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
     setEventInfoModalOpen(true);
   };
 
-  const handleSelectSlot = (event) => {
-    setOpenSlot(true);
-    setCurrentEvent(event);
-  };
-
-  const handleClose = () => {
-    setOpenSlot(false);
-  };
-
   const onDeleteEvent = async () => {
     setEvents(() => [...events].filter((e) => e.id !== currentEvent.id));
     setEventInfoModalOpen(false);
-  };
-
-  const addEvent = async (e) => {
-    e.preventDefault();
-    const data = {
-      start: Timestamp.fromDate(new Date()),
-      end: Timestamp.fromDate(new Date()),
-      id: currentEvent.orderNo,
-      title: currentEvent.orderNo + " - " + currentEvent.description,
-      description: currentEvent.description,
-      partNo: currentEvent.partNo,
-      quantity: currentEvent.quantity,
-      state: currentEvent.state,
-      updated: Timestamp.fromDate(new Date()),
-    };
-    const newEvents = [...events, data];
-    setEvents(newEvents);
-    handleClose();
   };
 
   const handleFilterStateChange = (event) => {

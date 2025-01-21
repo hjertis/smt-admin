@@ -5,6 +5,10 @@ import {
   DialogActions,
   DialogContent,
   DialogTitle,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
   TextField,
   Typography,
 } from "@mui/material";
@@ -15,6 +19,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import dayjs from "dayjs";
 import PropTypes from "prop-types";
+import { allStates } from "../../data/data";
 
 export default function EditEvent(props) {
   const data = props.currentEvent;
@@ -40,7 +45,9 @@ export default function EditEvent(props) {
         quantity: quantityRef.current.value,
         state: stateRef.current.value,
         status: statusRef.current.value,
-        start: Timestamp.fromDate(dayjs(startDateRef.current.value).toDate()),
+        start: Timestamp.fromDate(
+          dayjs(startDateRef.current.value).toDate() + 1
+        ),
         end: Timestamp.fromDate(dayjs(endDateRef.current.value).toDate()),
         updated: Timestamp.fromDate(new Date()),
       });
@@ -107,16 +114,23 @@ export default function EditEvent(props) {
               disabled={loading}
               sx={{ mt: 2 }}
             />
-            <TextField
-              id="state"
-              label="State"
-              variant="outlined"
-              defaultValue={data.state}
-              fullWidth
-              inputRef={stateRef}
-              disabled={loading}
-              sx={{ mt: 2 }}
-            />
+            <FormControl sx={{ width: "100%", mt: 2 }}>
+              <InputLabel>State:</InputLabel>
+              <Select
+                required
+                fullWidth
+                id="state"
+                label="State"
+                disabled={loading}
+                defaultValue={data.state}
+                inputRef={stateRef}>
+                {allStates.map((state) => (
+                  <MenuItem key={state} value={state}>
+                    {state}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
             <TextField
               id="status"
               label="Status"
