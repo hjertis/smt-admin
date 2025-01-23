@@ -42,6 +42,7 @@ export default function DragAndDropCalendarPage({ localizer, documents }) {
         id: document.id,
         status: document.status,
         updated: document.updated.toDate(),
+        resource: document.state,
       }))
     );
   }, [documents, filterState]);
