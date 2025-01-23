@@ -25,6 +25,7 @@ import Products from "./pages/Products";
 import PrivateRoute from "./context/PrivateRoute";
 import Planning from "./pages/Planning";
 import ClockIn from "./pages/ClockIn";
+import OcrReader from "./pages/OcrReader";
 import { FirebaseProvider } from "./context/FirebaseContext";
 
 function App() {
@@ -61,6 +62,7 @@ function App() {
                   <Route path="/planning" element={<Planning />} />
                   <Route path="/products" element={<Products />} />
                   <Route path="/clockIn" element={<ClockIn />} />
+                  <Route path="/ocrreader" element={<OcrReader />} />
                   <Route
                     path="/account"
                     element={
