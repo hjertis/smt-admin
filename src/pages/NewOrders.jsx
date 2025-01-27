@@ -61,6 +61,14 @@ const NewOrders = () => {
                   ],
                 },
               },
+              sorting: {
+                sortModel: [
+                  {
+                    field: "end",
+                    sort: "asc",
+                  },
+                ],
+              },
             }}
             disableColumnSelector
             disableDensitySelector
