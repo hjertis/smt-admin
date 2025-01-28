@@ -2,6 +2,7 @@
 import React from "react";
 import { Box, Typography } from "@mui/material";
 import useFirebase from "../../hooks/useFirebase";
+import Punchclock from "./Punchclock";
 
 export default function EmployeeList() {
   const employees = [];
@@ -21,6 +22,7 @@ export default function EmployeeList() {
                 <Box key={index}>
                   {employee.firstName} {employee.lastName} -{" "}
                   {employee.timeResource} minutes
+                  <Punchclock employeeId={employee.id} />
                 </Box>
               ))}
             </Box>
