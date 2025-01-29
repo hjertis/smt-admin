@@ -18,6 +18,7 @@ export default function AddEmployeeDialog(props) {
   const addEmployeeFormRef = React.useRef();
   const firstNameRef = React.useRef();
   const lastNameRef = React.useRef();
+  const initialsRef = React.useRef();
   const timeResourceRef = React.useRef();
   const effectivenessRef = React.useRef();
   const [loading, setLoading] = React.useState(false);
@@ -28,14 +29,11 @@ export default function AddEmployeeDialog(props) {
     try {
       // eslint-disable-next-line no-unused-vars
       const docRef = await setDoc(
-        doc(
-          db,
-          "employees",
-          firstNameRef.current.value + " " + lastNameRef.current.value
-        ),
+        doc(db, "employees", initialsRef.current.value),
         {
           firstName: firstNameRef.current.value,
           lastName: lastNameRef.current.value,
+          initials: initialsRef.current.value,
           timeResource: timeResourceRef.current.value,
           effectiveness: effectivenessRef.current.value,
         }
@@ -82,6 +80,16 @@ export default function AddEmployeeDialog(props) {
               autoComplete="lastName"
               disabled={loading}
               inputRef={lastNameRef}
+            />
+            <TextField
+              required
+              fullWidth
+              id="initials"
+              label="Initials"
+              name="initials"
+              autoComplete="initials"
+              disabled={loading}
+              inputRef={initialsRef}
             />
             <TextField
               required

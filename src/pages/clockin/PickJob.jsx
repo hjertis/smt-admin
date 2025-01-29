@@ -1,4 +1,3 @@
-// eslint-disable-next-line no-unused-vars
 import React from "react";
 import PropTypes from "prop-types";
 import {
@@ -7,15 +6,102 @@ import {
   ButtonGroup,
   Grid,
   TextField,
+  Typography,
 } from "@mui/material";
 import useFirebase from "../../hooks/useFirebase";
+import { doc, setDoc, Timestamp } from "firebase/firestore";
+import { db } from "../../firebase-config";
+import dayjs from "dayjs";
+import Jobinfo from "./Jobinfo";
 
 export default function PickJob(props) {
   const [currentJob, setCurrentJob] = React.useState();
   const { data } = useFirebase("newOrders");
-  const data2 = data.map(
+  const filteredData = data.filter((order) => order.status !== "Finished");
+  const data2 = filteredData.map(
     (order) => order.orderNumber + " - " + order.description
   );
+
+  const submitStartTimes = async (e) => {
+    e.preventDefault();
+    try {
+      const employeeRef = doc(
+        db,
+        "employees",
+        props.initials,
+        "workTimes",
+        dayjs().format("DD-MM-YYYY")
+      );
+      const orderRef = doc(
+        db,
+        "newOrders",
+        currentJob.orderNumber,
+        "workTimes",
+        dayjs().format("DD-MM-YYYY")
+      );
+
+      await setDoc(
+        employeeRef,
+        {
+          start: Timestamp.fromDate(new Date()),
+          job: currentJob.orderNumber,
+        },
+        { merge: true }
+      );
+      await setDoc(
+        orderRef,
+        {
+          start: Timestamp.fromDate(new Date()),
+          initials: props.initials,
+        },
+        { merge: true }
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      console.log("Success StartTime");
+    }
+  };
+
+  const submitStopTimes = async (e) => {
+    e.preventDefault();
+    try {
+      const employeeRef = doc(
+        db,
+        "employees",
+        props.initials,
+        "workTimes",
+        dayjs().format("DD-MM-YYYY")
+      );
+      const orderRef = doc(
+        db,
+        "newOrders",
+        currentJob.orderNumber,
+        "workTimes",
+        dayjs().format("DD-MM-YYYY")
+      );
+
+      await setDoc(
+        employeeRef,
+        {
+          stop: Timestamp.fromDate(new Date()),
+        },
+        { merge: true }
+      );
+      await setDoc(
+        orderRef,
+        {
+          stop: Timestamp.fromDate(new Date()),
+        },
+        { merge: true }
+      );
+    } catch (err) {
+      console.log(err);
+    } finally {
+      console.log("Success StopTime");
+    }
+  };
+
   return (
     <Grid container spacing={2} sx={{ width: 800 }}>
       {props.show && (
@@ -53,20 +139,19 @@ export default function PickJob(props) {
               Updated:{" "}
               {currentJob.updated.toDate().toLocaleString().split(",")[0]}
             </p>
+            <Jobinfo jobId={currentJob.orderNo} />
           </Grid>
           <Grid item md={12}>
-            {props.initials} start work
-            <br />
+            <Typography variant="body1">
+              Current Time: {dayjs().format("HH:mm:ss")}
+              <br />
+              Current Date: {dayjs().format("YYYY-MM-DD")}
+              <br />
+              Start or stop work now {props.initials}
+            </Typography>
             <ButtonGroup variant="contained">
-              <Button onClick={() => alert("Started " + props.initials)}>
-                Start
-              </Button>
-              <Button onClick={() => alert("Paused " + props.initials)}>
-                Pause
-              </Button>
-              <Button onClick={() => alert("Stopped " + props.initials)}>
-                Stop
-              </Button>
+              <Button onClick={submitStartTimes}>Start</Button>
+              <Button onClick={submitStopTimes}>Stop</Button>
             </ButtonGroup>
           </Grid>
         </>

@@ -7,7 +7,7 @@ export const allTasks = [
   "Washing",
   "Testing",
   "Cutting",
-];
+]; // tasks available to choose from
 
 export const allStates = [
   "SMT",
@@ -20,4 +20,6 @@ export const allStates = [
   "DONE",
   "REP",
   "PROT",
-];
+]; // states for jobs
+
+export const punchclockLimit = -10; // limits how many punchclock entries are shown in EmployeeInfo.jsx
