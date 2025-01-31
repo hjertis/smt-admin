@@ -12,7 +12,6 @@ import {
 import Punchclock from "./Punchclock";
 
 export default function EmployeeInfo(props) {
-  console.log(props.data);
   return (
     <Dialog
       maxWidth="md"

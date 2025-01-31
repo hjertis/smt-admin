@@ -6,7 +6,7 @@ import dayjs from "dayjs";
 import { punchclockLimit } from "../../data/data";
 
 export default function Punchclock({ employeeId }) {
-  const { data } = useFirebase(`employees/${employeeId}/punchclock`);
+  const { data } = useFirebase(`employees/${employeeId}/workTimes`);
   const punchclockData = data.slice(punchclockLimit);
 
   const totalTime = punchclockData.reduce((acc, current) => {
@@ -38,7 +38,7 @@ export default function Punchclock({ employeeId }) {
             {dayjs(punchclock.start.toDate()).format("YYYY-MM-DD HH:mm:ss")} -{" "}
             {dayjs(punchclock.stop.toDate()).format("YYYY-MM-DD HH:mm:ss")}{" "}
             {" - "}Worked hours: {elapsedHours}h {elapsedMinutes}m{" "}
-            {elapsedSeconds}s on OrderNo: {punchclock.orderNo}
+            {elapsedSeconds}s on OrderNo: {punchclock.job}
           </div>
         );
       })}

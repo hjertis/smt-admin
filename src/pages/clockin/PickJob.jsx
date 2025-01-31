@@ -13,6 +13,8 @@ import { doc, setDoc, Timestamp } from "firebase/firestore";
 import { db } from "../../firebase-config";
 import dayjs from "dayjs";
 import Jobinfo from "./Jobinfo";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default function PickJob(props) {
   const [currentJob, setCurrentJob] = React.useState();
@@ -59,7 +61,9 @@ export default function PickJob(props) {
     } catch (err) {
       console.log(err);
     } finally {
-      console.log("Success StartTime");
+      toast.success(
+        "Successfully started work on order " + currentJob.orderNumber
+      );
     }
   };
 
@@ -98,12 +102,15 @@ export default function PickJob(props) {
     } catch (err) {
       console.log(err);
     } finally {
-      console.log("Success StopTime");
+      toast.success(
+        "Successfully stopped work on order " + currentJob.orderNumber
+      );
     }
   };
 
   return (
     <Grid container spacing={2} sx={{ width: 800 }}>
+      <ToastContainer />
       {props.show && (
         <Grid item md={12}>
           <Autocomplete

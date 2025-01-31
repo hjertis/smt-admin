@@ -1,10 +1,11 @@
 import React from "react";
-import { Edit, Print } from "@mui/icons-material";
+import { Edit, Print, PunchClock } from "@mui/icons-material";
 import { IconButton } from "@mui/material";
 import EditNewOrders from "./EditNewOrders";
 import dayjs from "dayjs";
 import PrintOrder from "./PrintOrder";
 import { useReactToPrint } from "react-to-print";
+import Punchclock from "./Punchclock";
 
 export const columns = [
   {
@@ -54,6 +55,34 @@ export const columns = [
           <EditNewOrders
             open={openEdit}
             toggleClose={handleOpenEdit}
+            order={params.row}
+          />
+        </>
+      );
+    },
+  },
+  {
+    field: "punchclock",
+    headerName: "Punchclock",
+    width: 50,
+    flex: 0.3,
+    align: "center",
+    renderCell: (params) => {
+      // eslint-disable-next-line react-hooks/rules-of-hooks
+      const [openPunchclock, setOpenPunchclock] = React.useState(false);
+
+      const handleOpenPunchclock = () => {
+        setOpenPunchclock(!openPunchclock);
+      };
+
+      return (
+        <>
+          <IconButton onClick={handleOpenPunchclock}>
+            <PunchClock />
+          </IconButton>
+          <Punchclock
+            open={openPunchclock}
+            toggleClose={handleOpenPunchclock}
             order={params.row}
           />
         </>
