@@ -29,61 +29,70 @@ const ImportOrdersDialog = (props) => {
   const handleOrderSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    const createNewDocument = async (result) => {
+      const docRef = doc(db, "newOrders", result.No);
+      await setDoc(docRef, {
+        orderNumber: result.No,
+        description: result.Description,
+        partNo: result.SourceNo,
+        quantity: result.Quantity,
+        start: Timestamp.fromDate(
+          dayjs(result.StartingDateTime, "DD-MM-YYYY").toDate()
+        ),
+        end: Timestamp.fromDate(
+          dayjs(result.EndingDateTime, "DD-MM-YYYY").toDate()
+        ),
+        status: result.Status,
+        notes: result.Notes || "",
+        state: result.State || "",
+        updated: Timestamp.fromDate(new Date()),
+      });
+    };
+
+    const updateExistingDocument = async (result, docSnap) => {
+      const updates = {};
+      if (docSnap.data().status !== result.Status) {
+        updates.status = result.Status;
+      }
+      if (
+        docSnap.data().start.toDate().getTime() !==
+        dayjs(result.StartingDateTime, "DD-MM-YYYY").toDate().getTime()
+      ) {
+        updates.start = Timestamp.fromDate(
+          dayjs(result.StartingDateTime, "DD-MM-YYYY").toDate()
+        );
+      }
+      if (
+        docSnap.data().end.toDate().getTime() !==
+        dayjs(result.EndingDateTime, "DD-MM-YYYY").toDate().getTime()
+      ) {
+        updates.end = Timestamp.fromDate(
+          dayjs(result.EndingDateTime, "DD-MM-YYYY").toDate()
+        );
+      }
+      if (
+        docSnap.data().quantity !== result.Quantity &&
+        result.Quantity !== null
+      ) {
+        updates.quantity = result.Quantity;
+      }
+      if (Object.keys(updates).length > 0) {
+        await updateDoc(docSnap.ref, updates);
+      }
+    };
+
     try {
-      const promises = results.map(async (result) => {
+      results.forEach(async (result) => {
         const docRef = doc(db, "newOrders", result.No);
         const docSnap = await getDoc(docRef);
         if (!docSnap.exists()) {
-          await setDoc(docRef, {
-            orderNumber: result.No,
-            description: result.Description,
-            partNo: result.SourceNo,
-            quantity: result.Quantity,
-            start: Timestamp.fromDate(
-              dayjs(result.StartingDateTime, "DD-MM-YYYY").toDate()
-            ),
-            end: Timestamp.fromDate(
-              dayjs(result.EndingDateTime, "DD-MM-YYYY").toDate()
-            ),
-            status: result.Status,
-            notes: result.Notes || "", // Only update notes if it's a new document
-            state: result.State || "",
-            updated: Timestamp.fromDate(new Date()),
-          });
+          await createNewDocument(result);
         } else {
-          const updates = {};
-          if (docSnap.data().status !== result.Status) {
-            updates.status = result.Status;
-          }
-          if (
-            docSnap.data().start !==
-            Timestamp.fromDate(
-              dayjs(result.StartingDateTime, "DD-MM-YYYY").toDate()
-            )
-          ) {
-            updates.start = Timestamp.fromDate(
-              dayjs(result.StartingDateTime, "DD-MM-YYYY").toDate()
-            );
-          }
-          if (
-            docSnap.data().end !==
-            Timestamp.fromDate(
-              dayjs(result.EndingDateTime, "DD-MM-YYYY").toDate()
-            )
-          ) {
-            updates.end = Timestamp.fromDate(
-              dayjs(result.EndingDateTime, "DD-MM-YYYY").toDate()
-            );
-          }
-          if (Object.keys(updates).length > 0) {
-            await updateDoc(docRef, {
-              ...updates,
-              updated: Timestamp.fromDate(new Date()),
-            });
-          }
+          await updateExistingDocument(result, docSnap);
         }
       });
-      await Promise.all(promises);
+      await Promise.all(results.map(() => Promise.resolve()));
       toast.success("Orders submitted successfully");
     } catch (error) {
       console.error("Error submitting orders:", error);

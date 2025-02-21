@@ -16,8 +16,6 @@ import { doc, Timestamp, updateDoc } from "firebase/firestore";
 import React from "react";
 import { db } from "../../firebase-config";
 import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
-import dayjs from "dayjs";
 import PropTypes from "prop-types";
 import { allStates } from "../../data/data";
 
@@ -30,8 +28,6 @@ export default function EditEvent(props) {
   const quantityRef = React.useRef();
   const stateRef = React.useRef();
   const statusRef = React.useRef();
-  const startDateRef = React.useRef();
-  const endDateRef = React.useRef();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -45,10 +41,6 @@ export default function EditEvent(props) {
         quantity: quantityRef.current.value,
         state: stateRef.current.value,
         status: statusRef.current.value,
-        start: Timestamp.fromDate(
-          dayjs(startDateRef.current.value).toDate() + 1
-        ),
-        end: Timestamp.fromDate(dayjs(endDateRef.current.value).toDate()),
         updated: Timestamp.fromDate(new Date()),
       });
       toast.success("Orders successfully updated");
@@ -148,7 +140,6 @@ export default function EditEvent(props) {
               defaultValue={data.start.toISOString().slice(0, 10)}
               disabled
               fullWidth
-              inputRef={startDateRef}
               sx={{ mt: 2 }}
             />
             <TextField
@@ -158,7 +149,6 @@ export default function EditEvent(props) {
               defaultValue={data.end.toISOString().slice(0, 10)}
               disabled
               fullWidth
-              inputRef={endDateRef}
               sx={{ mt: 2 }}
             />
             <Typography variant="body2" sx={{ mt: 2 }}>

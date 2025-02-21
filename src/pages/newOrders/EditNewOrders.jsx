@@ -75,10 +75,10 @@ export default function EditNewOrders(props) {
         partNo: orderPartNoRef.current.value,
         quantity: orderQuantityRef.current.value,
         start: Timestamp.fromDate(
-          dayjs(orderStartRef.current.value, "YYYY-MM-DD").toDate()
+          dayjs(orderStartRef.current.value, "DD-MM-YYYY").toDate()
         ),
         end: Timestamp.fromDate(
-          dayjs(orderEndRef.current.value, "YYYY-MM-DD").toDate()
+          dayjs(orderEndRef.current.value, "DD-MM-YYYY").toDate()
         ),
         status: orderStatusRef.current.value,
         state: orderStateRef.current.value,
@@ -151,10 +151,9 @@ export default function EditNewOrders(props) {
                 id="start"
                 label="Start"
                 disabled={loading}
-                defaultValue={props.order.start
-                  .toDate()
-                  .toISOString()
-                  .slice(0, 10)}
+                defaultValue={dayjs(props.order.start.toDate()).format(
+                  "DD-MM-YYYY"
+                )}
                 inputRef={orderStartRef}
               />
               <TextField
@@ -163,10 +162,9 @@ export default function EditNewOrders(props) {
                 id="end"
                 label="End"
                 disabled={loading}
-                defaultValue={props.order.end
-                  .toDate()
-                  .toISOString()
-                  .slice(0, 10)}
+                defaultValue={dayjs(props.order.end.toDate()).format(
+                  "DD-MM-YYYY"
+                )}
                 inputRef={orderEndRef}
               />
               <TextField
