@@ -14,6 +14,7 @@ import {
   ProductionQuantityLimits,
   PunchClock,
   Book,
+  Schedule,
 } from "@mui/icons-material";
 import {
   AppBar,
@@ -126,6 +127,9 @@ const Header = (props) => {
               </IconButton>
               <IconButton color="inherit" href="/ocrreader">
                 <Book />
+              </IconButton>
+              <IconButton color="inherit" href="/scheduler">
+                <Schedule />
               </IconButton>
             </Grid>
           </Grid>
