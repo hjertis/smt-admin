@@ -25,10 +25,12 @@ import "react-toastify/dist/ReactToastify.css";
 export default function PickJob(props) {
   const [currentJob, setCurrentJob] = React.useState();
   const { data } = useFirebase("newOrders");
+  const { data: times } = useFirebase(`newOrders/${currentJob?.id}/workTimes`);
   const filteredData = data.filter((order) => order.status !== "Finished");
   const data2 = filteredData.map(
     (order) => order.orderNumber + " - " + order.description
   );
+  console.log(times);
   const submitStartTimes = async (e) => {
     e.preventDefault();
     try {
@@ -151,7 +153,7 @@ export default function PickJob(props) {
               Updated:{" "}
               {currentJob.updated.toDate().toLocaleString().split(",")[0]}
             </p>
-            <Jobinfo jobId={currentJob.orderNo} />
+            <Jobinfo jobId={currentJob.orderNo} workTimes={times} />
           </Grid>
           <Grid item md={12}>
             <Typography variant="body1">
