@@ -2,11 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import useFirebase from "../../hooks/useFirebase";
 import dayjs from "dayjs";
-import { Typography } from "@mui/material";
+import { collection, getDocs } from "firebase/firestore";
+import { db } from "../../firebase-config";
 
 export default function Jobinfo({ jobId }) {
   const { data } = useFirebase(`newOrders/${jobId}/workTimes`);
-  console.log(data);
+
+  React.useEffect(() => {
+    const worktimesRef = collection(db, "newOrders", jobId, "workTimes");
+    const worktimesSnap = getDocs(worktimesRef);
+    console.log(worktimesSnap);
+  }, []);
+
   return (
     <div>
       <div>Previous work times:</div>
