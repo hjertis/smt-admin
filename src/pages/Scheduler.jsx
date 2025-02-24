@@ -20,6 +20,7 @@ export default function Scheduler() {
       order.quantity +
       "stk.)",
     Status: order.status,
+    State: order.state,
   }));
 
   const cardSettings = {
@@ -32,6 +33,7 @@ export default function Scheduler() {
       dataSource={kanbanData}
       keyField="Status"
       cardSettings={cardSettings}
+      swimlaneSettings={{ keyField: "State" }}
       actionComplete={(args) => {
         if (args.requestType === "cardChanged") {
           console.log("Card changed", args);
@@ -40,7 +42,11 @@ export default function Scheduler() {
         }
       }}>
       <ColumnsDirective>
-        <ColumnDirective headerText="New" keyField="Firm Planned" />
+        <ColumnDirective
+          headerText="New"
+          keyField="Firm Planned"
+          allowToggle={true}
+        />
         <ColumnDirective headerText="In Progress" keyField="Released" />
         <ColumnDirective
           headerText="Done"
