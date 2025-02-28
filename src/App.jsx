@@ -28,7 +28,10 @@ import ClockIn from "./pages/ClockIn";
 import OcrReader from "./pages/OcrReader";
 import Scheduler from "./pages/Scheduler";
 import Punchclock from "./pages/Punchclock";
+import Timeline from "./pages/Timeline";
+import OrdersTabGrid from "./pages/OrdersTabGrid";
 import { FirebaseProvider } from "./context/FirebaseContext";
+import OrdersDraggableList from "./pages/OrdersDraggable";
 
 function App() {
   const [open, setOpen] = React.useState(false);
@@ -67,6 +70,12 @@ function App() {
                   <Route path="/ocrreader" element={<OcrReader />} />
                   <Route path="/scheduler" element={<Scheduler />} />
                   <Route path="/punchclock" element={<Punchclock />} />
+                  <Route path="/timeline" element={<Timeline />} />
+                  <Route path="/ordersgrid" element={<OrdersTabGrid />} />
+                  <Route
+                    path="/ordersdraggable"
+                    element={<OrdersDraggableList />}
+                  />
                   <Route
                     path="/account"
                     element={
