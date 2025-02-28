@@ -5,6 +5,10 @@ import {
   Button,
   ButtonGroup,
   Grid,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemText,
   TextField,
   Typography,
 } from "@mui/material";
@@ -116,11 +120,11 @@ export default function PickJob(props) {
   };
 
   return (
-    <Grid container spacing={2} sx={{ width: 800 }}>
+    <Grid container spacing={2}>
       <ToastContainer />
       {props.show && (
-        <Grid item md={12}>
-          <Autocomplete
+        <Grid item md={6}>
+          {/* <Autocomplete
             disablePortal
             options={data2}
             fullWidth
@@ -132,17 +136,41 @@ export default function PickJob(props) {
             renderInput={(params) => (
               <TextField {...params} label="Enter Job Number" />
             )}
-          />
+          /> */}
+          <List
+            sx={{
+              width: "100%",
+              bgcolor: "background.paper",
+              position: "relative",
+              overflow: "auto",
+              maxHeight: 600,
+              "& ul": { padding: 0 },
+            }}>
+            {data.map((order) => {
+              return (
+                <ListItem key={order.orderNumber}>
+                  <ListItemButton
+                    onClick={() => {
+                      setCurrentJob(order);
+                    }}>
+                    <ListItemText
+                      primary={order.orderNumber + " - " + order.description}
+                    />
+                  </ListItemButton>
+                </ListItem>
+              );
+            })}
+          </List>
         </Grid>
       )}
       {currentJob && (
         <>
-          <Grid item md={12}>
-            <p>Job number: {currentJob.orderNo}</p>
+          <Grid item md={6}>
+            <p>Job number: {currentJob.orderNumber}</p>
+            <p>Part number: {currentJob.partNo}</p>
             <p>Description: {currentJob.description}</p>
             <p>Status: {currentJob.status}</p>
             <p>Quantity: {currentJob.quantity}</p>
-            <p>Part number: {currentJob.partNo}</p>
             <p>
               Start: {currentJob.start.toDate().toLocaleString().split(",")[0]}
             </p>
@@ -154,8 +182,6 @@ export default function PickJob(props) {
               {currentJob.updated.toDate().toLocaleString().split(",")[0]}
             </p>
             <Jobinfo jobId={currentJob.orderNo} workTimes={times} />
-          </Grid>
-          <Grid item md={12}>
             <Typography variant="body1">
               Current Time: {dayjs().format("HH:mm:ss")}
               <br />
@@ -168,6 +194,7 @@ export default function PickJob(props) {
               <Button onClick={submitStopTimes}>Stop</Button>
             </ButtonGroup>
           </Grid>
+          <Grid item md={12}></Grid>
         </>
       )}
     </Grid>

@@ -1,6 +1,5 @@
 import React from "react";
 import PropTypes from "prop-types";
-import useFirebase from "../../hooks/useFirebase";
 import dayjs from "dayjs";
 
 export default function Jobinfo({ jobId, workTimes }) {

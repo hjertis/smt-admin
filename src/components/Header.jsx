@@ -131,6 +131,9 @@ const Header = (props) => {
               <IconButton color="inherit" href="/scheduler">
                 <Schedule />
               </IconButton>
+              <IconButton color="inherit" href="/punchclock">
+                <PunchClock />
+              </IconButton>
             </Grid>
           </Grid>
         </Toolbar>

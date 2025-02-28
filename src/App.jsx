@@ -27,6 +27,7 @@ import Planning from "./pages/Planning";
 import ClockIn from "./pages/ClockIn";
 import OcrReader from "./pages/OcrReader";
 import Scheduler from "./pages/Scheduler";
+import Punchclock from "./pages/Punchclock";
 import { FirebaseProvider } from "./context/FirebaseContext";
 
 function App() {
@@ -65,6 +66,7 @@ function App() {
                   <Route path="/clockIn" element={<ClockIn />} />
                   <Route path="/ocrreader" element={<OcrReader />} />
                   <Route path="/scheduler" element={<Scheduler />} />
+                  <Route path="/punchclock" element={<Punchclock />} />
                   <Route
                     path="/account"
                     element={
