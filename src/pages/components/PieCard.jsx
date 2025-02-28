@@ -51,7 +51,7 @@ export default function PieCard(props) {
 }
 
 PieCard.propTypes = {
-  size: PropTypes.string,
+  size: PropTypes.any,
   title: PropTypes.string,
   description: PropTypes.string,
   pie: PropTypes.array,

@@ -44,7 +44,7 @@ export default function Cards(props) {
 }
 
 Cards.propTypes = {
-  size: PropTypes.string,
+  size: PropTypes.any,
   title: PropTypes.string,
   description: PropTypes.string,
   sparkline: PropTypes.array,

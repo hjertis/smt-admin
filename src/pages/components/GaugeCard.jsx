@@ -47,7 +47,7 @@ export default function GaugeCard(props) {
 }
 
 GaugeCard.propTypes = {
-  size: PropTypes.string,
+  size: PropTypes.any,
   title: PropTypes.string,
   description: PropTypes.string,
 };

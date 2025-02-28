@@ -78,6 +78,7 @@ const ImportOrdersDialog = (props) => {
         updates.quantity = result.Quantity;
       }
       if (Object.keys(updates).length > 0) {
+        console.log(`Updating document ${docSnap.id} with updated:`, updates);
         await updateDoc(docSnap.ref, updates);
       }
     };
