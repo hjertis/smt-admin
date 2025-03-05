@@ -40,7 +40,16 @@ import {
   Close as CloseIcon,
 } from "@mui/icons-material";
 
+import useFirebase from "../hooks/useFirebase";
+
 const ResourcePlanningApp = () => {
+  // Orders from API
+  const [orders, setOrders] = useState([]);
+
+  const { data, loading, error } = useFirebase("newOrders");
+
+  console.log(data);
+
   // Sample data - in a real app, this would come from an API
   const [workOrders, setWorkOrders] = useState([
     {
@@ -95,7 +104,7 @@ const ResourcePlanningApp = () => {
         {
           id: "p7",
           name: "Close",
-          duration: 2,
+          duration: 1,
           color: "#9E9E9E",
           resource: "Tech 1",
         },
@@ -255,8 +264,9 @@ const ResourcePlanningApp = () => {
       sx={{
         display: "flex",
         flexDirection: "column",
-        height: "100vh",
+        height: "85vh",
         bgcolor: "#f5f5f5",
+        width: "100%",
       }}>
       {/* Header */}
       <AppBar position="static">
