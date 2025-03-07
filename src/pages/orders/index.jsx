@@ -29,8 +29,8 @@ import {
 
 import WorkOrderCard from "./WorkOrderCard";
 import ResourceView from "./ResourceView";
-import ResourceSelectionDialog from "../dialogs/ResourceSelectionDialog";
-import ProcessTemplateDialog from "../dialogs/ProcessTemplateDialog";
+import ResourceSelectionDialog from "./dialogs/ResourceSelectionDialog";
+import ProcessTemplateDialog from "./dialogs/ProcessTemplateDialog";
 
 import { useWorkOrders } from "../../hooks/useWorkOrders";
 import { useResources } from "../../hooks/useResources";

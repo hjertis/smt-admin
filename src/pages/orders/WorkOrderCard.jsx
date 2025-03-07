@@ -4,6 +4,7 @@ import { Box, Paper, Typography, Button, Chip } from "@mui/material";
 import { Edit as EditIcon, Info as InfoIcon } from "@mui/icons-material";
 import ProcessBar from "./ProcessBar";
 import { getStatusColor, getPriorityColor } from "../../utils/statusHelpers";
+import PropTypes from "prop-types";
 
 const WorkOrderCard = ({
   workOrder,
@@ -85,3 +86,10 @@ const WorkOrderCard = ({
 };
 
 export default WorkOrderCard;
+
+WorkOrderCard.propTypes = {
+  workOrder: PropTypes.object.isRequired,
+  onGenerateProcesses: PropTypes.func.isRequired,
+  onCustomizeProcesses: PropTypes.func.isRequired,
+  onProcessClick: PropTypes.func.isRequired,
+};

@@ -1,6 +1,7 @@
 // components/WorkOrderPlanning/ProcessBar.jsx
 import React from "react";
 import { Box } from "@mui/material";
+import PropTypes from "prop-types";
 
 const ProcessBar = ({
   processes,
@@ -119,3 +120,10 @@ const ProcessBar = ({
 };
 
 export default ProcessBar;
+
+ProcessBar.propTypes = {
+  processes: PropTypes.array.isRequired,
+  workOrderId: PropTypes.string.isRequired,
+  resources: PropTypes.array,
+  onProcessClick: PropTypes.func.isRequired,
+};

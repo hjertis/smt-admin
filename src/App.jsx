@@ -31,7 +31,7 @@ import Punchclock from "./pages/Punchclock";
 import ResourcePlanningApp from "./pages/OrdersTabGrid";
 import { FirebaseProvider } from "./context/FirebaseContext";
 import OrdersDraggableList from "./pages/OrdersDraggable";
-import Orders from "./pages/Orders";
+import WorkOrderPlanning from "./pages/orders";
 
 function App() {
   const [open, setOpen] = React.useState(false);
@@ -71,7 +71,7 @@ function App() {
                   <Route path="/scheduler" element={<Scheduler />} />
                   <Route path="/punchclock" element={<Punchclock />} />
                   <Route path="/ordersgrid" element={<ResourcePlanningApp />} />
-                  <Route path="/orders" element={<Orders />} />
+                  <Route path="/orders" element={<WorkOrderPlanning />} />
                   <Route
                     path="/ordersdraggable"
                     element={<OrdersDraggableList />}
