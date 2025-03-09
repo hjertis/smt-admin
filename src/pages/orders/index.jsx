@@ -27,6 +27,7 @@ import ResourceView from "./ResourceView";
 import ResourceSelectionDialog from "./dialogs/ResourceSelectionDialog";
 import ProcessTemplateDialog from "./dialogs/ProcessTemplateDialog";
 import AppHeader from "./common/AppHeader";
+import OrderEditDialog from "./dialogs/OrderEditDialog";
 
 import { useWorkOrders } from "../../hooks/useWorkOrders";
 import { useResources } from "../../hooks/useResources";
@@ -34,6 +35,7 @@ import { useProcesses } from "../../hooks/useProcesses";
 import { updateResource, createResource } from "../../services/resourceService";
 import { Refresh, Search } from "@mui/icons-material";
 import { CalendarIcon } from "@mui/x-date-pickers";
+import { updateWorkOrder } from "../../services/orderService";
 
 const WorkOrderPlanning = () => {
   const [viewMode, setViewMode] = useState("process");
@@ -41,6 +43,10 @@ const WorkOrderPlanning = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProcess, setSelectedProcess] = useState(null);
   const [showFinished, setShowFinished] = useState(false);
+  const [orderEditDialog, setOrderEditDialog] = useState({
+    open: false,
+    workOrder: null,
+  });
   const [processDialog, setProcessDialog] = useState({
     open: false,
     workOrder: null,
@@ -133,10 +139,9 @@ const WorkOrderPlanning = () => {
 
     if (success) {
       // Refresh resources to get the updated data
-      refreshResources();
+      refreshWorkOrders();
     } else {
-      // Show error message
-      // ...
+      console.log("error");
     }
   };
 
@@ -185,6 +190,26 @@ const WorkOrderPlanning = () => {
       </Box>
     );
   }
+
+  // Edit orders dialog
+  const handleOpenOrderEdit = (workOrder) => {
+    console.log("Edit clicked for:", workOrder.orderNumber);
+    setOrderEditDialog({ open: true, workOrder });
+  };
+  const handleSaveOrder = async (updatedWorkOrder) => {
+    const success = await updateWorkOrder(updatedWorkOrder);
+
+    if (success) {
+      // Just call refreshWorkOrders instead of trying to update state manually
+      refreshWorkOrders();
+
+      // Close the dialog
+      setOrderEditDialog({ open: false, workOrder: null });
+    } else {
+      // Handle error - maybe show a notification
+      console.error("Failed to update work order");
+    }
+  };
 
   return (
     <Box
@@ -244,6 +269,7 @@ const WorkOrderPlanning = () => {
               <MenuItem value="Finished">Finished</MenuItem>
             </Select>
 
+            {/* TODO: Fix this */}
             <TextField
               placeholder="Search work orders..."
               size="small"
@@ -273,6 +299,13 @@ const WorkOrderPlanning = () => {
         calculateUtilization={calculateUtilization}
         onResourceSelect={handleResourceChange}
         onClose={() => setSelectedProcess(null)}
+      />
+      {/* Order Edit Dialog */}
+      <OrderEditDialog
+        open={orderEditDialog.open}
+        workOrder={orderEditDialog.workOrder}
+        onSave={handleSaveOrder}
+        onClose={() => setOrderEditDialog({ open: false, workOrder: null })}
       />
 
       {/* Process Template Dialog */}
@@ -312,6 +345,7 @@ const WorkOrderPlanning = () => {
                     onGenerateProcesses={generateProcesses}
                     onCustomizeProcesses={handleTemplateEdit}
                     onProcessClick={setSelectedProcess}
+                    onEditOrder={handleOpenOrderEdit}
                   />
                 </Grid>
               ))

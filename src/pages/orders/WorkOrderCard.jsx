@@ -11,6 +11,7 @@ const WorkOrderCard = ({
   onGenerateProcesses,
   onCustomizeProcesses,
   onProcessClick,
+  onEditOrder,
 }) => {
   return (
     <Paper elevation={2}>
@@ -44,7 +45,11 @@ const WorkOrderCard = ({
           </Box>
         </Box>
         <Box>
-          <Button startIcon={<EditIcon />} sx={{ mr: 1 }} size="small">
+          <Button
+            startIcon={<EditIcon />}
+            sx={{ mr: 1 }}
+            size="small"
+            onClick={() => onEditOrder(workOrder)}>
             Edit
           </Button>
           <Button startIcon={<InfoIcon />} variant="outlined" size="small">
@@ -92,4 +97,5 @@ WorkOrderCard.propTypes = {
   onGenerateProcesses: PropTypes.func.isRequired,
   onCustomizeProcesses: PropTypes.func.isRequired,
   onProcessClick: PropTypes.func.isRequired,
+  onEditOrder: PropTypes.func.isRequired,
 };

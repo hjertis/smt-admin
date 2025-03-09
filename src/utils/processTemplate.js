@@ -8,15 +8,15 @@ export const processTemplatesByType = {
       resourceType: "Technician",
     },
     {
-      name: "Inspection",
-      duration: 4,
-      color: "#34A853",
-      resourceType: "Technician",
-    },
-    {
       name: "Assembly",
       duration: 6,
       color: "#FBBC05",
+      resourceType: "Technician",
+    },
+    {
+      name: "Inspection",
+      duration: 4,
+      color: "#34A853",
       resourceType: "Technician",
     },
     {
@@ -26,9 +26,63 @@ export const processTemplatesByType = {
       resourceType: "Engineer",
     },
     {
-      name: "Documentation",
+      name: "Close",
+      duration: 2,
+      color: "#9E9E9E",
+      resourceType: "Technician",
+    },
+  ],
+
+  THT: [
+    {
+      name: "Setup",
+      duration: 2,
+      color: "#4285F4",
+      resourceType: "Technician",
+    },
+    {
+      name: "Assembly",
+      duration: 6,
+      color: "#FBBC05",
+      resourceType: "Technician",
+    },
+    {
+      name: "Inspection",
+      duration: 4,
+      color: "#34A853",
+      resourceType: "Technician",
+    },
+    {
+      name: "Testing",
       duration: 3,
-      color: "#673AB7",
+      color: "#EA4335",
+      resourceType: "Engineer",
+    },
+    {
+      name: "Close",
+      duration: 2,
+      color: "#9E9E9E",
+      resourceType: "Technician",
+    },
+  ],
+
+  SMT: [
+    {
+      name: "Setup",
+      duration: 2,
+      color: "#4285F4",
+      resourceType: "Technician",
+    },
+    {
+      name: "Assembly",
+      duration: 6,
+      color: "#FBBC05",
+      resourceType: "Technician",
+    },
+    {
+      name: "Inspection",
+      duration: 4,
+      color: "#34A853",
       resourceType: "Technician",
     },
     {
