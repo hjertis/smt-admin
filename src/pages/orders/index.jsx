@@ -18,29 +18,29 @@ import {
   Tabs,
   CircularProgress,
   Alert,
+  FormControlLabel,
+  Switch,
 } from "@mui/material";
-import {
-  Add as AddIcon,
-  Settings as SettingsIcon,
-  Search as SearchIcon,
-  Refresh as RefreshIcon,
-  CalendarMonth as CalendarIcon,
-} from "@mui/icons-material";
 
 import WorkOrderCard from "./WorkOrderCard";
 import ResourceView from "./ResourceView";
 import ResourceSelectionDialog from "./dialogs/ResourceSelectionDialog";
 import ProcessTemplateDialog from "./dialogs/ProcessTemplateDialog";
+import AppHeader from "./common/AppHeader";
 
 import { useWorkOrders } from "../../hooks/useWorkOrders";
 import { useResources } from "../../hooks/useResources";
 import { useProcesses } from "../../hooks/useProcesses";
+import { updateResource, createResource } from "../../services/resourceService";
+import { Refresh, Search } from "@mui/icons-material";
+import { CalendarIcon } from "@mui/x-date-pickers";
 
 const WorkOrderPlanning = () => {
   const [viewMode, setViewMode] = useState("process");
   const [filterStatus, setFilterStatus] = useState("All");
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProcess, setSelectedProcess] = useState(null);
+  const [showFinished, setShowFinished] = useState(false);
   const [processDialog, setProcessDialog] = useState({
     open: false,
     workOrder: null,
@@ -69,6 +69,17 @@ const WorkOrderPlanning = () => {
 
   // Filter work orders based on search term
   const filteredWorkOrders = workOrdersWithProcesses.filter((wo) => {
+    // Only include in process view if not Finished
+    if (viewMode === "process" && wo.status === "Finished" && !showFinished) {
+      return false;
+    }
+
+    // Apply status filter if not 'All'
+    if (filterStatus !== "All" && wo.status !== filterStatus) {
+      return false;
+    }
+
+    // Apply search term filter
     const matchesSearch =
       wo.orderNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       wo.description?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -103,9 +114,35 @@ const WorkOrderPlanning = () => {
     setSelectedProcess(null);
   };
 
+  const handleResourceUpdate = async (updatedResource) => {
+    let success = false;
+    let newResourceId = null;
+
+    // Check if it's a new resource or an update
+    if (
+      updatedResource.id.startsWith("r") &&
+      isNaN(updatedResource.id.substring(1))
+    ) {
+      // It's a new resource with a temporary ID
+      newResourceId = await createResource(updatedResource);
+      success = !!newResourceId;
+    } else {
+      // It's an existing resource
+      success = await updateResource(updatedResource);
+    }
+
+    if (success) {
+      // Refresh resources to get the updated data
+      refreshResources();
+    } else {
+      // Show error message
+      // ...
+    }
+  };
+
   // Handle template editing
   const handleTemplateEdit = (workOrder) => {
-    import("../../utils/processTemplates").then(
+    import("../../utils/processTemplate").then(
       ({ generateProcessesFromTemplate }) => {
         const templateProcesses = generateProcessesFromTemplate(
           workOrder.id,
@@ -132,6 +169,7 @@ const WorkOrderPlanning = () => {
           justifyContent: "center",
           alignItems: "center",
           height: "100vh",
+          width: "100%",
         }}>
         <CircularProgress />
       </Box>
@@ -155,21 +193,10 @@ const WorkOrderPlanning = () => {
         flexDirection: "column",
         height: "100vh",
         bgcolor: "#f5f5f5",
+        width: "100%",
       }}>
       {/* Header */}
-      <AppBar position="static">
-        <Toolbar>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            Work Order Resource Planning
-          </Typography>
-          <Button variant="contained" color="secondary" startIcon={<AddIcon />}>
-            New Work Order
-          </Button>
-          <IconButton color="inherit" sx={{ ml: 2 }}>
-            <SettingsIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+      <AppHeader />
 
       {/* Controls */}
       <Paper sx={{ mb: 2 }}>
@@ -196,6 +223,16 @@ const WorkOrderPlanning = () => {
           </Tabs>
 
           <Box sx={{ display: "flex", gap: 2 }}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={showFinished}
+                  onChange={(e) => setShowFinished(e.target.checked)}
+                  size="small"
+                />
+              }
+              label="Show Finished Orders"
+            />
             <Select
               value={filterStatus}
               onChange={(e) => setFilterStatus(e.target.value)}
@@ -215,14 +252,14 @@ const WorkOrderPlanning = () => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <SearchIcon />
+                    <Search />
                   </InputAdornment>
                 ),
               }}
             />
 
             <IconButton onClick={refreshWorkOrders}>
-              <RefreshIcon />
+              <Refresh />
             </IconButton>
           </Box>
         </Box>
@@ -287,6 +324,7 @@ const WorkOrderPlanning = () => {
             resources={resources}
             workOrders={workOrdersWithProcesses}
             calculateUtilization={calculateUtilization}
+            onResourceUpdate={handleResourceUpdate}
           />
         )}
 
@@ -296,7 +334,7 @@ const WorkOrderPlanning = () => {
               Calendar View
             </Typography>
             <Typography variant="body2" color="text.secondary" paragraph>
-              Calendar integration would display resource assignments by date
+              Cldnr integration would display resource assignments by date
             </Typography>
             <Box
               sx={{

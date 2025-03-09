@@ -1,7 +1,7 @@
 // hooks/useWorkOrders.js
 import { useState, useEffect } from "react";
 import { collection, query, getDocs, where, orderBy } from "firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../firebase-config";
 
 export function useWorkOrders(statusFilter = null) {
   const [workOrders, setWorkOrders] = useState([]);

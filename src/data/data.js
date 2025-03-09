@@ -27,7 +27,7 @@ export const punchclockLimit = -10; // limits how many punchclock entries are sh
 export const resources = [
   {
     id: "r1",
-    name: "Tech 1",
+    name: "Worker 1",
     type: "Technician",
     color: "#03A9F4",
     capacity: 40,
@@ -35,7 +35,7 @@ export const resources = [
   },
   {
     id: "r2",
-    name: "Tech 2",
+    name: "Worker 2",
     type: "Technician",
     color: "#03A9F4",
     capacity: 40,

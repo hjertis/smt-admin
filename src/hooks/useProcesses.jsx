@@ -9,8 +9,8 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
-import { db } from "../firebase";
-import { generateProcessesFromTemplate } from "../utils/processTemplates";
+import { db } from "../firebase-config";
+import { generateProcessesFromTemplate } from "../utils/processTemplate";
 
 export function useProcesses(workOrders) {
   const [workOrdersWithProcesses, setWorkOrdersWithProcesses] = useState([]);

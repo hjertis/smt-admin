@@ -31,7 +31,7 @@ import Punchclock from "./pages/Punchclock";
 import ResourcePlanningApp from "./pages/OrdersTabGrid";
 import { FirebaseProvider } from "./context/FirebaseContext";
 import OrdersDraggableList from "./pages/OrdersDraggable";
-import WorkOrderPlanning from "./pages/orders";
+import WorkOrderPlanning from "./pages/orders/index";
 
 function App() {
   const [open, setOpen] = React.useState(false);
