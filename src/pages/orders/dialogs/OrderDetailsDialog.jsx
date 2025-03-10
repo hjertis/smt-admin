@@ -18,7 +18,7 @@ import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 
-const OrderEditDialog = ({ open, workOrder, onSave, onClose }) => {
+const OrderDetailsDialog = ({ open, workOrder, onSave, onClose }) => {
   const [formData, setFormData] = useState({
     orderNumber: "",
     description: "",
@@ -103,6 +103,7 @@ const OrderEditDialog = ({ open, workOrder, onSave, onClose }) => {
                 onChange={handleChange("partNo")}
                 fullWidth
                 margin="normal"
+                disabled={!!workOrder}
               />
             </Grid>
             <Grid item xs={12}>
@@ -112,6 +113,7 @@ const OrderEditDialog = ({ open, workOrder, onSave, onClose }) => {
                 onChange={handleChange("description")}
                 fullWidth
                 margin="normal"
+                disabled={!!workOrder}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -122,6 +124,7 @@ const OrderEditDialog = ({ open, workOrder, onSave, onClose }) => {
                 type="number"
                 fullWidth
                 margin="normal"
+                disabled={!!workOrder}
               />
             </Grid>
             <Grid item xs={12} md={6}>
@@ -130,6 +133,7 @@ const OrderEditDialog = ({ open, workOrder, onSave, onClose }) => {
                 <Select
                   value={formData.priority}
                   onChange={handleChange("priority")}
+                  disabled={!!workOrder}
                   label="Priority">
                   <MenuItem value="Low">Low</MenuItem>
                   <MenuItem value="Medium">Medium</MenuItem>
@@ -143,6 +147,7 @@ const OrderEditDialog = ({ open, workOrder, onSave, onClose }) => {
                 <Select
                   value={formData.status}
                   onChange={handleChange("status")}
+                  disabled={!!workOrder}
                   label="Status">
                   <MenuItem value="Scheduled">Scheduled</MenuItem>
                   <MenuItem value="Released">Released</MenuItem>
@@ -157,6 +162,7 @@ const OrderEditDialog = ({ open, workOrder, onSave, onClose }) => {
                 <Select
                   value={formData.state}
                   onChange={handleChange("state")}
+                  disabled={!!workOrder}
                   label="State">
                   <MenuItem value="HMT">HMT</MenuItem>
                   <MenuItem value="SMT">SMT</MenuItem>
@@ -174,6 +180,7 @@ const OrderEditDialog = ({ open, workOrder, onSave, onClose }) => {
                   slotProps={{
                     textField: { fullWidth: true, margin: "normal" },
                   }}
+                  disabled={!!workOrder}
                 />
               </LocalizationProvider>
             </Grid>
@@ -186,6 +193,7 @@ const OrderEditDialog = ({ open, workOrder, onSave, onClose }) => {
                   slotProps={{
                     textField: { fullWidth: true, margin: "normal" },
                   }}
+                  disabled={!!workOrder}
                 />
               </LocalizationProvider>
             </Grid>
@@ -198,23 +206,17 @@ const OrderEditDialog = ({ open, workOrder, onSave, onClose }) => {
                 multiline
                 rows={3}
                 margin="normal"
+                disabled={!!workOrder}
               />
             </Grid>
           </Grid>
         </Box>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onClose}>Cancel</Button>
-        <Button
-          onClick={handleSubmit}
-          variant="contained"
-          color="primary"
-          disabled={!formData.orderNumber || !formData.description}>
-          Save
-        </Button>
+        <Button onClick={onClose}>Close</Button>
       </DialogActions>
     </Dialog>
   );
 };
 
-export default OrderEditDialog;
+export default OrderDetailsDialog;

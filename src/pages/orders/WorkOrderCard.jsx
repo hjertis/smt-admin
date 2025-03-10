@@ -12,6 +12,7 @@ const WorkOrderCard = ({
   onCustomizeProcesses,
   onProcessClick,
   onEditOrder,
+  onDetailOrder,
 }) => {
   return (
     <Paper elevation={2}>
@@ -52,7 +53,11 @@ const WorkOrderCard = ({
             onClick={() => onEditOrder(workOrder)}>
             Edit
           </Button>
-          <Button startIcon={<InfoIcon />} variant="outlined" size="small">
+          <Button
+            startIcon={<InfoIcon />}
+            variant="outlined"
+            size="small"
+            onClick={() => onDetailOrder(workOrder)}>
             Details
           </Button>
         </Box>

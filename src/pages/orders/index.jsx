@@ -36,6 +36,8 @@ import { updateResource, createResource } from "../../services/resourceService";
 import { Refresh, Search } from "@mui/icons-material";
 import { CalendarIcon } from "@mui/x-date-pickers";
 import { updateWorkOrder } from "../../services/orderService";
+import OrderDetailsDialog from "./dialogs/OrderDetailsDialog";
+import CalendarView from "./CalendarView";
 
 const WorkOrderPlanning = () => {
   const [viewMode, setViewMode] = useState("process");
@@ -43,6 +45,10 @@ const WorkOrderPlanning = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProcess, setSelectedProcess] = useState(null);
   const [showFinished, setShowFinished] = useState(false);
+  const [orderDetailsDialog, setOrderDetailsDialog] = useState({
+    open: false,
+    workOrder: null,
+  });
   const [orderEditDialog, setOrderEditDialog] = useState({
     open: false,
     workOrder: null,
@@ -191,6 +197,10 @@ const WorkOrderPlanning = () => {
     );
   }
 
+  const handleOpenOrderDetails = (workOrder) => {
+    setOrderDetailsDialog({ open: true, workOrder });
+  };
+
   // Edit orders dialog
   const handleOpenOrderEdit = (workOrder) => {
     console.log("Edit clicked for:", workOrder.orderNumber);
@@ -308,6 +318,13 @@ const WorkOrderPlanning = () => {
         onClose={() => setOrderEditDialog({ open: false, workOrder: null })}
       />
 
+      {/* Order Details Dialog */}
+      <OrderDetailsDialog
+        open={orderDetailsDialog.open}
+        workOrder={orderDetailsDialog.workOrder}
+        onClose={() => setOrderDetailsDialog({ open: false, workOrder: null })}
+      />
+
       {/* Process Template Dialog */}
       <ProcessTemplateDialog
         open={processDialog.open}
@@ -346,6 +363,7 @@ const WorkOrderPlanning = () => {
                     onCustomizeProcesses={handleTemplateEdit}
                     onProcessClick={setSelectedProcess}
                     onEditOrder={handleOpenOrderEdit}
+                    onDetailOrder={handleOpenOrderDetails}
                   />
                 </Grid>
               ))
@@ -378,7 +396,7 @@ const WorkOrderPlanning = () => {
                 textAlign: "center",
                 color: "#aaa",
               }}>
-              Calendar view implementation
+              <CalendarView />
             </Box>
           </Paper>
         )}
