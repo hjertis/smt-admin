@@ -45,6 +45,7 @@ const WorkOrderPlanning = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [selectedProcess, setSelectedProcess] = useState(null);
   const [showFinished, setShowFinished] = useState(false);
+  const [selectedWorkOrder, setSelectedWorkOrder] = useState();
   const [orderDetailsDialog, setOrderDetailsDialog] = useState({
     open: false,
     workOrder: null,
@@ -396,7 +397,20 @@ const WorkOrderPlanning = () => {
                 textAlign: "center",
                 color: "#aaa",
               }}>
-              <CalendarView />
+              <CalendarView
+                workOrders={workOrders}
+                maxVisibleOrders={5}
+                onWorkOrderMove={(updatedWorkOrder, allWorkOrders) => {
+                  // Update Firebase or your state management
+                  updateWorkOrder(updatedWorkOrder);
+                }}
+                onWorkOrderSelect={(workOrder) => {
+                  // Handle selection, perhaps to show more details
+                  setSelectedWorkOrder(workOrder);
+                }}
+                initialDate={new Date()}
+                title="Production Work Orders"
+              />
             </Box>
           </Paper>
         )}
